@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>IFwhale</title>
+  
+  <subtitle>个人工作学习生活记录</subtitle>
+  <link href="https://fwhale0.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://fwhale0.github.io/"/>
+  <updated>2024-03-23T08:15:57.932Z</updated>
+  <id>https://fwhale0.github.io/</id>
+  
+  <author>
+    <name>刘贝宁</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>量化实习Day4</title>
+    <link href="https://fwhale0.github.io/2024/03/22/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0Day4/"/>
+    <id>https://fwhale0.github.io/2024/03/22/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0Day4/</id>
+    <published>2024-03-22T12:03:02.000Z</published>
+    <updated>2024-03-23T08:15:57.932Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天本来挺正常的，mentor给了29篇研报，让我读完并写成总结报告。这算是一个比较大的工程，我一天也没读完两篇，到下班的时候才大概给研报分了类别，并确定了报告的结构。</p><p>但是今早mentor的一通电话直接让我压力升高。根据她的意思，对我目前的成果并不满意：她招我是因为看中了我的基本面和行业轮动项目经历，但是这两天经过考察我之前的项目，发现做的很粗糙，并没有达到她的预期。同时，她发现我存在一些不该存在的问题，比如说交易没有滞后、分位回测没有等权等等。她目前的实习生做的工作以高频为主，我可能是唯一一个做这方面工作的实习生，而我的这个方向更加简单。总之，就是简单而做的不好。但是她对我的期望和要求又很高，因为这个岗位是奔着留用去的，所以我应该好好干。</p><p>好好干我没问题，但是万一干得不好怎么办……再加上我五一前还想请几天假，这样看来都不知道有没有戏😟。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天本来挺正常的，mentor给了29篇研报，让我读完并写成总结报告。这算是一个比较大的工程，我一天也没读完两篇，到下班的时候才大概给研报分了类别，并确定了报告的结构。&lt;/p&gt;
+&lt;p&gt;但是今早mentor的一通电话直接让我压力升高。根据她的意思，对我目前的成果并不满意：她招我是因为看中了我的基本面和行业轮动项目经历，但是这两天经过考察我之前的项目，发现</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://fwhale0.github.io/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://fwhale0.github.io/tags/Quant/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习Day3</title>
+    <link href="https://fwhale0.github.io/2024/03/21/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0Day3/"/>
+    <id>https://fwhale0.github.io/2024/03/21/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0Day3/</id>
+    <published>2024-03-21T08:24:16.000Z</published>
+    <updated>2024-03-23T08:15:39.873Z</updated>
+    
+    <content type="html"><![CDATA[<p>最简单的一天，早上mentor发现我的选股不是等权的，稍微修改了一下提交，然后请了下午的考试假，结果一个早上都没有再找我🤣。直接美美下班。值得注意的是不细心再次体现了出来，感觉这种缺点在量化策略中是比较危险的，改正改正。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;最简单的一天，早上mentor发现我的选股不是等权的，稍微修改了一下提交，然后请了下午的考试假，结果一个早上都没有再找我🤣。直接美美下班。值得注意的是不细心再次体现了出来，感觉这种缺点在量化策略中是比较危险的，改正改正。&lt;/p&gt;
+</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://fwhale0.github.io/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://fwhale0.github.io/tags/Quant/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习Day2</title>
+    <link href="https://fwhale0.github.io/2024/03/20/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0Day2/"/>
+    <id>https://fwhale0.github.io/2024/03/20/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0Day2/</id>
+    <published>2024-03-20T08:30:22.000Z</published>
+    <updated>2024-03-23T08:15:25.493Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/./images/weekly_normal.svg" alt="weekly_normal"></p><p>今天同样是朝九晚五的一天（对这个节奏还算满意）。按照mentor的要求，将原本实现的策略中包含的两个因子分别提取出来，并对其在日频和周频的条件下分别进行分层的测试。</p><p>这个过程的工作量令人意外，因为如果我的代码框架合理，因该很容易将两个因子分别拿出来做测试，但是由于代码结构比较混乱，错综复杂，因此这个过程也显得相当痛苦。最后我决定顺带稍微优化一下，将部分过程写成函数并塞到一个module里，再从notebook里面引入。但是由于加入了一些新的参数，某些逻辑被大大复杂化了，导致我的代码变得更加屎山……但由于仅仅是用来测试，应该结果不会太严重，大不了之后再优化好了。</p><p>我的回测系统混乱不堪，为了实现日频和周频两种回测频率，我甚至需要对这两种情况分别写一个函数，且每一个函数都很长，其中还有八九个参数的嵌套函数。总而言之，我的这套代码是相当臃肿丑陋的。也许我应该重新学一下一些现成的回测系统，比如<code>backtrader</code>。</p><p>今天还学到一个之前一直忽略但实际上不该忽略的小细节。我的因子根据当天的收盘价和份额来计算得出，那么我不可能用当天的收盘价来进行交易。对于一个以这样方式形成的因子，我最快也只能在第二天开盘的时候进行交易。在修正这一问题后，我的收益曲线果然变得没有那么好了，看来因子对于收益率的贡献衰减可能会很快。</p><p>现在依然不清楚我常态化工作的方式是如何。如果一直像这样复现研报——测试——提交代码的话，也许会有一天感到枯燥。让我们拭目以待。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/./images/weekly_normal.svg&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://fwhale0.github.io/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://fwhale0.github.io/tags/Quant/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习Day1</title>
+    <link href="https://fwhale0.github.io/2024/03/19/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0Day1/"/>
+    <id>https://fwhale0.github.io/2024/03/19/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0Day1/</id>
+    <published>2024-03-19T12:31:00.000Z</published>
+    <updated>2024-03-23T08:13:41.925Z</updated>
+    
+    <content type="html"><![CDATA[<p>今日正式入职某量化私募，感觉总算是正儿八经开始实习了，有些许激动，也期待挑战。唯一不满的就是mentor不说啥时候上下班，虽然招聘简介上写的是8:30-17:00，那我是不是可以理解为五点可以直接消失？毕竟我是远程实习。</p><p>看得出来mentor确实对我之前的实习内容感兴趣，上来就让我更新数据+额外跑周频数据+写报告。没想到这个去年的策略现在依然能够有超额，但是没好意思告诉mentor这里面严格来讲使用了未来数据……Anyway，我估计这一问题应该不难规避，就先放着没管。</p><p>干中学还是能够学到不少技巧，比如发现SMA有很多种实现方式。按照网上的说法，用<code>numpy</code>或者<code>numba</code>应该能够取得比<code>Pandas</code>的<code>rolling()</code>方法更高的效率，但是实践中发现好像区别不大。</p><p>最后，发现自己写的代码也越来越屎山了。如果真的要用这个策略的话也许应该重构一下。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今日正式入职某量化私募，感觉总算是正儿八经开始实习了，有些许激动，也期待挑战。唯一不满的就是mentor不说啥时候上下班，虽然招聘简介上写的是8:30-17:00，那我是不是可以理解为五点可以直接消失？毕竟我是远程实习。&lt;/p&gt;
+&lt;p&gt;看得出来mentor确实对我之前的实习内容感兴趣，上来就让我更新数据+额外跑周频数据+写报告。没想到这个去年的策略现在</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://fwhale0.github.io/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://fwhale0.github.io/tags/Quant/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Quant求职知识技能经历补全计划</title>
+    <link href="https://fwhale0.github.io/2023/11/25/Quant%E6%B1%82%E8%81%8C%E7%9F%A5%E8%AF%86%E6%8A%80%E8%83%BD%E7%BB%8F%E5%8E%86%E8%A1%A5%E5%85%A8%E8%AE%A1%E5%88%92/"/>
+    <id>https://fwhale0.github.io/2023/11/25/Quant%E6%B1%82%E8%81%8C%E7%9F%A5%E8%AF%86%E6%8A%80%E8%83%BD%E7%BB%8F%E5%8E%86%E8%A1%A5%E5%85%A8%E8%AE%A1%E5%88%92/</id>
+    <published>2023-11-25T11:07:00.000Z</published>
+    <updated>2024-03-20T12:27:11.694Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="知识技能分类"><a href="#知识技能分类" class="headerlink" title="知识技能分类"></a>知识技能分类</h2><p>前段时间投递了一些量化私募实习，发现量化这个行业确实要求候选人知识面非常广泛，且不同的企业重点考察的方向也不同。因此根据自身经历和身边的信息，总结了一下量化笔面所大致涵盖的知识技能，以便于准备笔面时参考复习。</p><table><thead><tr><th align="center">数学</th><th align="center">计算机</th><th align="center">金融</th><th align="center">经历</th></tr></thead><tbody><tr><td align="center">微积分</td><td align="center">Python基础</td><td align="center">金融衍生品</td><td align="center">实习</td></tr><tr><td align="center">线性代数</td><td align="center">C&#x2F;C++基础</td><td align="center">投资学</td><td align="center">竞赛获奖</td></tr><tr><td align="center">概率论</td><td align="center">数据结构与算法</td><td align="center">宏观经济学</td><td align="center">科研经历及论文发表</td></tr><tr><td align="center">随机过程</td><td align="center">pandas</td><td align="center">微观经济学</td><td align="center">实盘策略</td></tr><tr><td align="center">统计学</td><td align="center">机器学习</td><td align="center">博弈论</td><td align="center"></td></tr><tr><td align="center">数论</td><td align="center">深度学习</td><td align="center">资产定价</td><td align="center"></td></tr></tbody></table>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;知识技能分类&quot;&gt;&lt;a href=&quot;#知识技能分类&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="Quant" scheme="https://fwhale0.github.io/tags/Quant/"/>
+    
+  </entry>
+  
+</feed>
