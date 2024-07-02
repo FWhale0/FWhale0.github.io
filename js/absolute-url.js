@@ -1,0 +1,1 @@
+$(document).ready(function(){$(".post-content a, a.copyright-link").not('[href^="#"], .link-card, .fancybox, .headerlink').each(function(){var t,n=$(this).attr("href");n&&0!==n.indexOf("http")?(t=new URL(n,window.location.href).href,$(this).attr("alt-href",t)):$(this).attr("alt-href",n)})});

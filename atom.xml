@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>IFwhale</title>
+  
+  <subtitle>个人工作学习生活记录</subtitle>
+  <link href="https://ifwhale.top/atom.xml" rel="self"/>
+  
+  <link href="https://ifwhale.top/"/>
+  <updated>2024-07-02T13:59:24.778Z</updated>
+  <id>https://ifwhale.top/</id>
+  
+  <author>
+    <name>刘贝宁</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>量化实习 v2丨Day 48：更神奇的期限结构因子</title>
+    <link href="https://ifwhale.top/posts/6a2aaf19/"/>
+    <id>https://ifwhale.top/posts/6a2aaf19/</id>
+    <published>2024-07-02T09:01:34.000Z</published>
+    <updated>2024-07-02T13:59:24.778Z</updated>
+    
+    <content type="html"><![CDATA[<p>上午向带教确认了一下，才搞明白我需要做的不是买近卖远或者卖近买远，而是根据远近合约的价差来交易主力合约。因此尽管因子的构造方式可能与近远月合约有关，但是交易和它们没有关系。</p><p>盯了半天数据，实在没有什么思路。于是决定上网找找研报，发挥一下我查找资料能力的比较优势。好不容易寻得海通证券的两篇量化研报，一篇来自 2014 年，一篇来自 2015 年，都相当古老了。</p><p>第一篇研报给出的相关因子很简单，就是给出一个展期收益率因子：</p><p>$$<br>R_t &#x3D; \left[\ln{P_{t,n} - \ln{P_{t,d}}} \right] \times {365\over N_{t,d} - N_{t,n}}<br>$$</p><p>其中 $P_{t,n}$ 和 $P_{t,d}$ 可以代表近月远月合约，也可以代表近月和次近月合约、近月和主力合约、甚至主力和次主力合约。</p><p>文章用 5 日、10 日等周期来截面交易，但是我编写的功能贫瘠的回测框架暂时只支持每日交易，因此我也就没管那么多，先拿来试一试。结果很神奇，上述不同的合约组合有的能赚钱，有的不赚钱，有的甚至要将因子值取相反数才赚钱。</p><p>下班前又试了试第二篇研报，这篇研报稍微认真了点儿，参考了一篇国外的论文，整了一个更复杂的因子：<br>$$<br>basis\ momentum&#x3D;\prod^t_{i&#x3D;t-R+1}\left(1+R^{T_1}<em>{fut,i}\right)-\prod^t</em>{i&#x3D;t-R+1}\left(1+R^{T_2}<em>{fut,i} \right)<br>$$<br>这里的 $R^{T_1}</em>{fut,i}$ 和 $R^{T_2}_{fut,i}$ 同样指的是不同期限的合约。这个因子多了一个参数，也就是用来滚动计算的窗口 $R$。为了寻参方便，我不得不将耗时过长的 <code>pandas.DataFrame.rolling()</code> 用向量化的方法重新实现，果然效率提高了几十倍。Pandas 原来这么垃圾。</p><p>研究尚未进行完全，等结论比较清晰了再详细写一下这类因子好了。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上午向带教确认了一下，才搞明白我需要做的不是买近卖远或者卖近买远，而是根据远近合约的价差来交易主力合约。因此尽管因子的构造方式可能与近远月合约有关，但是交易和它们没有关系。&lt;/p&gt;
+&lt;p&gt;盯了半天数据，实在没有什么思路。于是决定上网找找研报，发挥一下我查找资料能力的比较优势。好不容易寻得海通证券的两篇量化研报，一篇来自 2014 年，一篇来自</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 47：月差？</title>
+    <link href="https://ifwhale.top/posts/41231dca/"/>
+    <id>https://ifwhale.top/posts/41231dca/</id>
+    <published>2024-07-01T15:52:48.000Z</published>
+    <updated>2024-07-01T15:57:16.509Z</updated>
+    
+    <content type="html"><![CDATA[<p>今日本想在有色金属的基本面研究上大展宏图，结果带教又甩出一份数据，是另一个实习生做的月差数据，用来做跨期套利策略。看了半天，感觉数据有点问题，而且网上也没有很多有用的资料，挠头。</p><p>至于有色金属的基本面，神奇的是，之前黑色板块的众多因子似乎大部分也还能一用，虽然效果好像也不是特别好。也许有色金属最终的策略可以多用一些指标，这样的结果可能会更加稳健。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今日本想在有色金属的基本面研究上大展宏图，结果带教又甩出一份数据，是另一个实习生做的月差数据，用来做跨期套利策略。看了半天，感觉数据有点问题，而且网上也没有很多有用的资料，挠头。&lt;/p&gt;
+&lt;p&gt;至于有色金属的基本面，神奇的是，之前黑色板块的众多因子似乎大部分也还能一用，虽然效果好像也不是特别好。也许有色金属最终的策略可以多用一些指标，这样的结果可能会更</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 46：无所事事</title>
+    <link href="https://ifwhale.top/posts/29ae1c5c/"/>
+    <id>https://ifwhale.top/posts/29ae1c5c/</id>
+    <published>2024-06-28T08:48:17.000Z</published>
+    <updated>2024-06-28T13:47:27.560Z</updated>
+    
+    <content type="html"><![CDATA[<p>上午花时间补上了昨天的日记，结果今天就啥也不想干了，陷入一种奇怪的懒得工作的虚无中。</p><p>仓单因子做到这里，我感觉也没有啥非得做下去的内容了。尝试了一些不同的数据，发现能赚钱的只有有色金属和白银；探索一下其他的因子表达式，基本还是研报给的最有用；寻找一下最优参数，大概是 10，很快就找到了。</p><p>下周的任务应该围绕有色金属的基本面分析展开，这部分工作大概就跟黑色金属差不多了，希望顺利</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上午花时间补上了昨天的日记，结果今天就啥也不想干了，陷入一种奇怪的懒得工作的虚无中。&lt;/p&gt;
+&lt;p&gt;仓单因子做到这里，我感觉也没有啥非得做下去的内容了。尝试了一些不同的数据，发现能赚钱的只有有色金属和白银；探索一下其他的因子表达式，基本还是研报给的最有用；寻找一下最优参数，大概是</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 45：神奇的仓单因子</title>
+    <link href="https://ifwhale.top/posts/1bbaf0dc/"/>
+    <id>https://ifwhale.top/posts/1bbaf0dc/</id>
+    <published>2024-06-28T01:52:27.000Z</published>
+    <updated>2024-06-28T16:20:29.483Z</updated>
+    
+    <content type="html"><![CDATA[<p>居然连续两天没有写日记了，至少补上昨天的吧。</p><p>这两天实际上在折腾一个新的小玩意，叫仓单因子。</p><h2 id="什么是仓单"><a href="#什么是仓单" class="headerlink" title="什么是仓单"></a>什么是仓单</h2><blockquote><p>  期货标准仓单是指现货商将手头上符合交易所交割标准的现货存放在交易所指定的交割仓库，并经检验合格后由交易所给现货商签发的一种实物提货凭证。</p><p>  当市场供给过剩，现货商认为期货价格比现货更有利时，会倾向于把现货注册成仓单，用于在期货市场中交割。反之当市场供不应求，现货价格更为有利时，现货商则会倾向于直接在现货市场中交易，从而减少仓单的注册，甚至注销已有仓单。</p></blockquote><p>因此，仓单因子实际上交易的是反转逻辑，反映的是市场供给的过剩或者不足。要应用仓单因子，就需要在仓单增加时做空，仓单减少时做多。</p><h2 id="仓单的适用性条件"><a href="#仓单的适用性条件" class="headerlink" title="仓单的适用性条件"></a>仓单的适用性条件</h2><p>仓单的增减若能反映市场供求关系，其首要条件是，仓单的注册或者注销必须完全是市场行为。但是这一条件并不能普遍被满足。根据<a href="https://www.founderfu.com/jiaogejicangdanguizejianbiao/426.html">交割及仓单规则简表 </a>，在所有商品期货中，除了 10 种期货以外，其他期货均设有有效期，这意味着仓单注册者必须在仓单到期前注销仓单，这是非市场行为，与产业方对商品供求的判断无关，因此无法反映市场状态。</p><p>上述的 10 种期货为：铜（cu）、铝（al）、锌（zn）、铅（pb）、镍（ni）、锡（sn）、白银（ag）、黄金（au）、原油（sc）和国际铜（bc）。而在其中，国际铜（bc）上市时间较短，以下不讨论。</p><p><img src="/.top//image-20240628101305980.png" alt="不设有效期的仓单数据：以有色板块为例"></p><p>因此，从逻辑上，仅有这几种期货品种有可能适用于仓单因子交易。而从实践上看，以黑色板块品种为例，热轧板卷（hc）、螺纹钢（rb）、铁矿（i）等品种的仓单数据都会周期性地清零。</p><p><img src="/.top//85d12307-bdc7-481d-821d-fae286c7ab5d.png" alt="周期性清零的仓单数据：以黑色板块为例"></p><h2 id="策略构造"><a href="#策略构造" class="headerlink" title="策略构造"></a>策略构造</h2><p>以下以这个简单的因子结构来对仓单因子进行讨论：<br>$$<br>factor_t &#x3D; -\left({warrant_t\over {1\over5}\sum^4_{i&#x3D;0}warrant_{t-i}}-1\right)<br>$$<br>其中 $warrant$ 表示各商品的仓单数量。这一因子的含义即仓单数量相对最近 5 日均值变化的相反数。因子值更大意味着更强的做多信号，相反则意味着更强的做空信号。</p><p>策略及回测分为两步进行：</p><ol><li>讨论仓单因子的择时能力。对于每个仓单因子可能适用的品种，当仓单因子数值为正时做多，数值为负时做空。</li><li>讨论仓单因子的截面择品种能力。对于每个交易日，选择仓单因子数值排名前 2 的品种做多，排名后 2 的品种做空。</li></ol><p>所有交易考虑 0.02% 的交易费用。</p><h2 id="回测结果"><a href="#回测结果" class="headerlink" title="回测结果"></a>回测结果</h2><p>以下若无特殊说明，均使用开盘价进行交易。</p><h3 id="单因子回测"><a href="#单因子回测" class="headerlink" title="单因子回测"></a>单因子回测</h3><p>对于单因子回测，其效果参差不齐，但是基本都能够得到正收益。</p><p><img src="/.top//9e89c4f5-546e-473c-a83f-d21214324101.png" alt="较好的单品种回测结果：以铅（pb）为例"></p><p><img src="/.top//c365ebe2-4954-4754-a453-05ae67986621.png" alt="较差的单品种回测结果：以铜（cu）为例"></p><h3 id="截面回测"><a href="#截面回测" class="headerlink" title="截面回测"></a>截面回测</h3><p>而截面回测的结果更加可观。为保证品种的可比性，以下截面回测在 6 种有色品种之间进行，即铜（cu）、铝（al）、锌（zn）、铅（pb）、镍（ni）、锡（sn）。</p><p><img src="/.top//ceba5dd8-7f40-4e86-8419-821ae4b3f9e2.png" alt="有色品种截面回测结果"></p><h3 id="关于黄金（au）与原油（sc）的讨论"><a href="#关于黄金（au）与原油（sc）的讨论" class="headerlink" title="关于黄金（au）与原油（sc）的讨论"></a>关于黄金（au）与原油（sc）的讨论</h3><p>值得注意的是黄金（au）和原油（sc）仓单数据的特别性。这两个品种的仓单尽管不设期限，但是其仓单数据却常常连续几个月不发生任何变化，目前原因未知。</p><p><img src="/.top//e2922a1c-d9eb-4853-b883-46e4a05779ca.png" alt="与白银（ag）不同，黄金（au）和原油（sc）仓单常常几个月保持不变"></p><p>而从回测结果来看，这两个品种基本不能应用仓单因子，而白银（ag）却能获得相当稳定的收益。</p><p><img src="/.top//7131ddb2-6dfd-44ec-aed1-6da790b39025.png" alt="黄金（au）和原油（sc）基本不能通过仓单因子获得收益"></p><p><img src="/.top//25488cc0-4491-4796-abca-b8d1a73c498d.png" alt="但是白银（ag）可以"></p><h3 id="关于价格数据的讨论"><a href="#关于价格数据的讨论" class="headerlink" title="关于价格数据的讨论"></a>关于价格数据的讨论</h3><p>仓单因子交易的是短期逻辑，其对交易时间十分敏感。同样是对有色板块的 6 个品种进行择品种交易，仅仅是将开盘价替换为收盘价，就会导致结果发生巨大差异。</p><p><img src="/.top//cfe8068b-3343-4eb2-a0c4-bb64776ec869.png" alt="使用收盘价交易的绩效显著降低"></p><p>因此，仓单因子的交易要点是<strong>交易得越快越好</strong>。</p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a class="link-card" target="_blank" href="https://mp.weixin.qq.com/s/ns7TM4hWF3KAUDFfH9TiTw"><span class="LinkCard-contents"><span style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-height: 40px; line-height: 1.25; color: #121212;">再议仓单因子——测测截面策略的效果</span><span style="display: -webkit-box; font-size: 13px; height: 18px; line-height: 18px; color: #999; word-break: break-all; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 1; -webkit-box-orient: vertical;"><span style="display: inline-flex; align-items: center;"><svg class="Zi Zi--InsertLink" fill="currentColor" viewbox="0 0 24 24" width="14" height="14"><path d="M13.414 4.222a4.5 4.5 0 1 1 6.364 6.364l-3.005 3.005a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 0-.707l3.005-3.005a2.5 2.5 0 1 0-3.536-3.536l-3.005 3.005a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 0-.707l3.005-3.005zm-6.187 6.187a.5.5 0 0 1 .638-.058l.07.058.706.707a.5.5 0 0 1 .058.638l-.058.07-3.005 3.004a2.5 2.5 0 0 0 3.405 3.658l.13-.122 3.006-3.005a.5.5 0 0 1 .638-.058l.069.058.707.707a.5.5 0 0 1 .058.638l-.058.069-3.005 3.005a4.5 4.5 0 0 1-6.524-6.196l.16-.168 3.005-3.005zm8.132-3.182a.25.25 0 0 1 .353 0l1.061 1.06a.25.25 0 0 1 0 .354l-8.132 8.132a.25.25 0 0 1-.353 0l-1.061-1.06a.25.25 0 0 1 0-.354l8.132-8.132z"/></svg></span><span>https://mp.weixin.qq.com/s/ns7TM4hWF3KAUDFfH9TiTw</span></span></span></a></p><p><a class="link-card" target="_blank" href="https://mp.weixin.qq.com/s/EQcRkk6BPG3t28cHK78moQ"><span class="LinkCard-contents"><span style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-height: 40px; line-height: 1.25; color: #121212;">仓单因子的正确打开方式</span><span style="display: -webkit-box; font-size: 13px; height: 18px; line-height: 18px; color: #999; word-break: break-all; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 1; -webkit-box-orient: vertical;"><span style="display: inline-flex; align-items: center;"><svg class="Zi Zi--InsertLink" fill="currentColor" viewbox="0 0 24 24" width="14" height="14"><path d="M13.414 4.222a4.5 4.5 0 1 1 6.364 6.364l-3.005 3.005a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 0-.707l3.005-3.005a2.5 2.5 0 1 0-3.536-3.536l-3.005 3.005a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 0-.707l3.005-3.005zm-6.187 6.187a.5.5 0 0 1 .638-.058l.07.058.706.707a.5.5 0 0 1 .058.638l-.058.07-3.005 3.004a2.5 2.5 0 0 0 3.405 3.658l.13-.122 3.006-3.005a.5.5 0 0 1 .638-.058l.069.058.707.707a.5.5 0 0 1 .058.638l-.058.069-3.005 3.005a4.5 4.5 0 0 1-6.524-6.196l.16-.168 3.005-3.005zm8.132-3.182a.25.25 0 0 1 .353 0l1.061 1.06a.25.25 0 0 1 0 .354l-8.132 8.132a.25.25 0 0 1-.353 0l-1.061-1.06a.25.25 0 0 1 0-.354l8.132-8.132z"/></svg></span><span>https://mp.weixin.qq.com/s/EQcRkk6BPG3t28cHK78moQ</span></span></span></a></p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;居然连续两天没有写日记了，至少补上昨天的吧。&lt;/p&gt;
+&lt;p&gt;这两天实际上在折腾一个新的小玩意，叫仓单因子。&lt;/p&gt;
+&lt;h2 id=&quot;什么是仓单&quot;&gt;&lt;a href=&quot;#什么是仓单&quot; class=&quot;headerlink&quot; title=&quot;什么是仓单&quot;&gt;&lt;/a&gt;什么是仓单&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt; </summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 43：错漏百出的代码</title>
+    <link href="https://ifwhale.top/posts/8ff6c948/"/>
+    <id>https://ifwhale.top/posts/8ff6c948/</id>
+    <published>2024-06-25T08:38:42.000Z</published>
+    <updated>2024-06-26T14:51:31.320Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天读了一下带教给的处理期货数据的代码，完全被雷到了。</p><p>先说代码风格，其中一个文件 <code>TradeDay.py</code> 还是不错的，像模像样，但是另一个文件 <code>data_update_handler2.py</code> 就堪称乱七八糟，和前者肯定不是一个人写的。长得快要溢出 24 寸屏幕的语句、几十上百行的函数、30 个字符以上的变量名、冗余没啥用的逻辑充斥着整个文件，令人不忍直视。</p><p>利用一步一步 debug 的方式，总算是读完了所有代码。其实核心逻辑相当直白，就是把当前持仓量最大的合约当作主力合约。而在主力切换的时点，用新旧合约的 close 或者 vwap 价格来复权价格数据。但是其中的细节有两个重要的错误：</p><ol><li><p>一般而言，主力合约切换的原则是将连续几日持仓量都最大的合约作为新的主力合约，且主力合约切换都是向前切换，不可能再回退。而这段代码却简单将每日持仓量最大的合约作为主力合约，这不但可能导致主力合约提前切换，还可能导致主力合约发生回退（从实践上来看，确实会发生回退）。</p></li><li><p>这段代码会计算换月时产生的价差，并且将价格直接加上价差来成为复权后的价格。但是这样可能会导致收益计算不准确，比如，假设存在两个合约的价格序列：</p></li></ol>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">旧主力合约 A：[4, 6, 8, 10]</span><br><span class="line">新主力合约 B：[1, 2, 3, 4]</span><br></pre></td></tr></table></figure><p>  假设在第二日结束后换月，按照代码逻辑，直接将新合约价格加上价差，复权后价格序列应当是：</p>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">复权后价格 C：[4, 6, 7, 8]</span><br></pre></td></tr></table></figure><p>  但实际上，如果我在换月前持有 1 手合约 A，那么换月后我就持有 3 手合约 B，那么我的净值实际上应该是：</p>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实际净值 D：[4, 6, 9, 12]</span><br></pre></td></tr></table></figure><p>  这会导致复权后的价格完全错误！</p><p>于是带教让我别看这份代码了，之前做啥继续做啥。也挺好的，阅读这样的代码确实是一种折磨。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天读了一下带教给的处理期货数据的代码，完全被雷到了。&lt;/p&gt;
+&lt;p&gt;先说代码风格，其中一个文件 &lt;code&gt;TradeDay.py&lt;/code&gt; 还是不错的，像模像样，但是另一个文件 &lt;code&gt;data_update_handler2.py&lt;/code&gt; 就堪称乱七八糟，和前者肯定不是一个人写的。长得快要溢出 24</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 42：稍显混乱的工作进展</title>
+    <link href="https://ifwhale.top/posts/59f7f36f/"/>
+    <id>https://ifwhale.top/posts/59f7f36f/</id>
+    <published>2024-06-24T09:10:16.000Z</published>
+    <updated>2024-06-24T12:53:15.618Z</updated>
+    
+    <content type="html"><![CDATA[<p>上午又来了两位实习生，终于可以凑一桌麻将了。</p><p>一问带教才知道，原来有色数据还没开始弄😓，白等了两三天。不过既然没数据用不如自己捣鼓一下，复现了一下领导之前发在群里的<a href="https://mp.weixin.qq.com/s/EQcRkk6BPG3t28cHK78moQ">仓单因子研报</a>。</p><p>这篇研报非常神奇，它用的仓单数据是交易所每日公开发布的，用 WIND 或者 iFind 都很容易获取。而交易逻辑非常直白，仓单增加就做空，仓单减少就做多。实际测试一下，效果惊人。在没有引入未来数据的情况下，每个品种的收益基本都丝滑稳增，个别品种日频曲线收益竟然直逼 2000%，非常吓人。</p><p>趁兴用公司框架回测一下，立马被浇了一盆冷水。除了部分品种仍然能够保持不错的收益以外，另一部分品种的净值开始剧烈波动，甚至基本不能获得收益。更搞笑的是，为了达到和本地回测相似的效果，需要将因子值取相反数！</p><p>这一结果相当神秘，讲不清楚是公司回测框架的原因还是我自己的原因，恐怕还需要进一步研究。</p><p>这时带教又丢了个活，要我研究一下期货品种数据的处理。简单来说就是对主力品种换月这一情况作复权处理。近来工作进度有些混乱，有色弄到一半进度受阻，仓单因子研究了一个下午又没有后文（兴许也可以自己找时间做一做），现在又开始研究期货数据处理，好吧。离实习结束还有不到一个月，还会有什么成果产出吗？</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上午又来了两位实习生，终于可以凑一桌麻将了。&lt;/p&gt;
+&lt;p&gt;一问带教才知道，原来有色数据还没开始弄😓，白等了两三天。不过既然没数据用不如自己捣鼓一下，复现了一下领导之前发在群里的&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 41：回测框架逐步成型</title>
+    <link href="https://ifwhale.top/posts/10cdd80a/"/>
+    <id>https://ifwhale.top/posts/10cdd80a/</id>
+    <published>2024-06-20T08:59:56.000Z</published>
+    <updated>2024-06-23T16:25:12.944Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天带教好像有点忙，似乎还没有处理完我的数据，而明天我又请了个假，也就是说我这周的工作就差不多是这样了。</p><p>在摸鱼的间隙还是决定继续构建一下回测框架。<code>Position</code> 这个类其实写起来挺麻烦的，我上次遗留的进度是将未赋权的持仓数据转换成赋权后的持仓数据。我预想了好几种权重计算方法，但是由于懒惰，仅实现了等权的计算函数，之后如果有其他需求再说。</p><p>接着，我又稍微写了一下因子基类 <code>FacBasic</code> 用来被将来可能编写的各个因子继承；一个 <code>FacData</code> 类，用于利用因子类来生成因子数据。这一部分我目前想法不多，因此仅实现了基本框架，之后有需要再细想好了。</p><p>放假！</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天带教好像有点忙，似乎还没有处理完我的数据，而明天我又请了个假，也就是说我这周的工作就差不多是这样了。&lt;/p&gt;
+&lt;p&gt;在摸鱼的间隙还是决定继续构建一下回测框架。&lt;code&gt;Position&lt;/code&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 40：间歇性摆烂</title>
+    <link href="https://ifwhale.top/posts/a06d820a/"/>
+    <id>https://ifwhale.top/posts/a06d820a/</id>
+    <published>2024-06-19T08:52:30.000Z</published>
+    <updated>2024-06-19T14:02:55.055Z</updated>
+    
+    <content type="html"><![CDATA[<p>上午提交了下载的数据，接下来就等待带教处理数据没啥事可干了。</p><p>下午打算继续开干回测框架，但是不知道为何动力熄火，看见代码就烦，写了二三十行就动不下去了，昏昏沉沉的，摸一会儿键盘就想看手机，真没意思。</p><p>有时候也挺怀疑自己对于这一行的热情是否足够支撑将来的事业，也许有一天会厌烦也说不定。下午想了想，自己天天做基本面数据的处理、按照自己的想法做策略，但是这样的工作方式也许并不具有普适性，如果未来去了别的公司或许也需要重新适应。而从面试的角度来看，数学、机器学习、算法、绿皮书等等方面其实都还挺欠缺的，但是又没有足够的动机去弥补。不知道下一次找实习的时候是否又会四处碰壁。</p><p>明天要好好恢复一下状态，记得周五要请假别忘了。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上午提交了下载的数据，接下来就等待带教处理数据没啥事可干了。&lt;/p&gt;
+&lt;p&gt;下午打算继续开干回测框架，但是不知道为何动力熄火，看见代码就烦，写了二三十行就动不下去了，昏昏沉沉的，摸一会儿键盘就想看手机，真没意思。&lt;/p&gt;
+&lt;p&gt;有时候也挺怀疑自己对于这一行的热情是否足够支撑将来的事业，也许有一天会厌烦也说不定。下午想了想，自己天天做基本面数据的处理、按</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 39：数据矿工回归</title>
+    <link href="https://ifwhale.top/posts/92884c19/"/>
+    <id>https://ifwhale.top/posts/92884c19/</id>
+    <published>2024-06-17T09:18:22.000Z</published>
+    <updated>2024-06-17T11:15:08.062Z</updated>
+    
+    <content type="html"><![CDATA[<p>这周打算效率高一点，赶一赶进度，于是今天一直在整理数据，之前大概一周才完成的任务，今天一天就做得七七八八了。下班前，我下载好家用电器、电子、电力设备和交通运输四个行业的基本面数据，明天再整理成标准格式应该就可以提交了。</p><p>由于绝大部分指标都是在一个 PPT 里面找的，为了在下载数百条数据的过程中加快效率，我又写了一个 <a href="https://getquicker.net/">Quicker</a> 动作，将一列指标名称全部复制下来，并且利用用户选择窗口来简化指标名称选择过程，还是挺有意思的。</p><p>除此以外今天就没什么值得写的了，因为基本上都在重复“选择指标 → 搜索指标 → 添加指标 → 下载指标”这一过程，做得头昏脑胀。</p><p>感觉今天都不想健身了，回去骑骑车好了。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这周打算效率高一点，赶一赶进度，于是今天一直在整理数据，之前大概一周才完成的任务，今天一天就做得七七八八了。下班前，我下载好家用电器、电子、电力设备和交通运输四个行业的基本面数据，明天再整理成标准格式应该就可以提交了。&lt;/p&gt;
+&lt;p&gt;由于绝大部分指标都是在一个 PPT 里面找的，为了在下载数百条数据的过程中加快效率，我又写了一个 &lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 38：绘制有色指数</title>
+    <link href="https://ifwhale.top/posts/4d666db2/"/>
+    <id>https://ifwhale.top/posts/4d666db2/</id>
+    <published>2024-06-14T09:04:09.000Z</published>
+    <updated>2024-06-15T07:52:15.203Z</updated>
+    
+    <content type="html"><![CDATA[<p>真糟糕，虽然今天在策略研究上主要做的事情是编制有色板块价格指数，但是好像大部分时间没有用在这一方面，而具体做了些啥又想不太起来了。</p><p>有色的研究实际上才开始没多久，我将找到的研报整理好放到印象笔记里带教共享的笔记本中，因为印象笔记自动将 pdf 文件直接展示而不是作为附件直接展示而折腾了一通。整理研究文件夹时，发现上次带教给的数据实在太细碎了，完全没有必要地将数据按交易日拆分为一个个单独的 <code>.csv</code> 文件，一下子多出几十万个小文件和文件夹，导致重命名一下压力都很大。无奈之下又花了好长时间删除不必要的数据，整理起来很费劲。</p><p>下午做了一下有色价格指数的编制，实际上挺简单的，只不过是将此前黑色价格指数编制的遗产重复利用一下。我编制价格指数的时候会采用两种方法，一种是直接对各个品种的价格进行加权，而另一种则是对各个品种的收益率进行加权，再用收益率序列生成价格序列。思来想去，感觉似乎后者更加合理一些，原因有二：一是在直接加权平均价格的情况下，若列入新的期货品种则可能发生指数价格的突变，这很可能导致回测结果不准确；二是回测时往往直接将资金等权来交易各个品种，在这种情况下期货价格的绝对数值实际上是不重要的，重要的只是收益率而已。</p><p>做完了这些，感觉脑袋晕乎乎的，有点困顿，撑着脑袋眯了一小会，又找了找电子书，用作以后阅读。最近想读一读关于全球宏观经济观察分析的书籍，包括美元信用体系或者中国全球化参与什么的，但是没有找到合适的来源，就算有也很少有 <code>.mobi</code> 格式的版本。罢了，周五大家都走得很快，我也先下班好了。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;真糟糕，虽然今天在策略研究上主要做的事情是编制有色板块价格指数，但是好像大部分时间没有用在这一方面，而具体做了些啥又想不太起来了。&lt;/p&gt;
+&lt;p&gt;有色的研究实际上才开始没多久，我将找到的研报整理好放到印象笔记里带教共享的笔记本中，因为印象笔记自动将 pdf</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 37：勇闯有色世界</title>
+    <link href="https://ifwhale.top/posts/5c37f819/"/>
+    <id>https://ifwhale.top/posts/5c37f819/</id>
+    <published>2024-06-13T08:59:54.000Z</published>
+    <updated>2024-06-13T14:05:50.956Z</updated>
+    
+    <content type="html"><![CDATA[<p>上午本来想着最好别一直摸鱼，还是看看研报，结果这么一看就看到了下班。根据带教的说法，我可以仿照黑色的做法来刻画有色金属板块的景气度，然后再将其与黑色板块进行对冲。而就我的理解看来，实际上就是像之前那样把有色板块的择时因子做出来，然后配合黑色板块的择时因子来实现一个仅有两种资产的截面策略。而从带教的语气中，我察觉到做策略的过程不需要太遵守某些特定的规矩，可以比较自由地加入自己的想法。</p><p>于是我便开始上网搜寻资料。根据带教此前提供的一份配置，我将铝（al）、铜（cu）、镍（ni）、锌（zn）、铅（pb）、氧化铝（ao）和锡（sn）作为有色金属板块的组成成分。这其中，除了氧化铝是由铝加工而来以外，其他都由直接开采而来，没有上游材料。而氧化铝本身也只不过是电解铝的上游材料，基本上并非终端生产材料。除了氧化铝与铝以外，各种有色金属之间基本没有严格上下游关系，因此有色板块内部结构相较黑色板块而言更加松散。但从下游需求的角度来看，也并非毫不相干，因为大部分有色金属的行业需求都有所重叠，如电池、新能源汽车、电子产品等行业都会依赖其中的几种材料。</p><p>要想对有色板块的景气度进行建模，恐怕需要利用更加多元的基本面数据，涉及更大范围的行业和上下游关系。此外，似乎不一定要局限于大类行业，也可以从某一类电池、某一种机械产品的基本面资料等方面着手。这些方面能做的工作还有很多。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上午本来想着最好别一直摸鱼，还是看看研报，结果这么一看就看到了下班。根据带教的说法，我可以仿照黑色的做法来刻画有色金属板块的景气度，然后再将其与黑色板块进行对冲。而就我的理解看来，实际上就是像之前那样把有色板块的择时因子做出来，然后配合黑色板块的择时因子来实现一个仅有两种资产的截面策略。而从带教的语气中，我察觉到做策略的过程不需要太遵守某些特定的规矩，</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 36：基本上啥也没干的下午</title>
+    <link href="https://ifwhale.top/posts/bf7ac55a/"/>
+    <id>https://ifwhale.top/posts/bf7ac55a/</id>
+    <published>2024-06-12T09:04:22.000Z</published>
+    <updated>2024-06-12T15:34:12.022Z</updated>
+    
+    <content type="html"><![CDATA[<p>下午 13:00 准时来到办公室，坐下开始处理昨天 mentor 让我做的任务，也就是将策略整理成因子。这格式一看，好像跟之前舍友展示的因子框架差不多，都是对于每个因子设计一个类，然后在类中完成结构化的数据读取、策略逻辑实现和返回值。不同点可能在于，mentor 给的代码似乎需要直接返回持仓（而不是因子），从这个角度来看，也许 mentor 的这个因子系统没有对大量因子进行组合优化的环节，而是一个因子就对应一个最终的策略。不管怎样，这些框架的思路都给人以灵感。</p><p>下午提交了代码之后收到一个重要的任务：潜入楼上的下午茶区域，为办公室跑腿带回美味的甜点。谁知这次下午茶是交行专门为推销信用卡而准备的，我一上楼就被重重包围，不断被推销员的话术淹没。我逃出重围，拿出盘子开始装甜点，这时又被叫停，原来是嫌我拿得太多了。我晓之以理、动之以情，总算顺利将甜点带回了办公室。吃了两个有青提的糕点，味道还不错。</p><p>完事了继续开干回测框架，目前依然在 <code>Position</code> 类攻坚。由于我给这个类设置了相对灵活的参数，因此对于参数的处理方式变得十分复杂。为了以不同的方式通过输入的因子值来选择多空的品种，我设计了三个模式，包括：</p><ul><li><code>abs</code>：按照因子绝对数值多空</li><li><code>rank</code>：按因子值排序选择前后一定具体排名的品种多空</li><li><code>quantile</code>：按因子值排序选择前后一定比例的品种多空</li></ul><p>而对于每一模式，都可以通过直接输入数值或者文本来输入参数。比如，如果要按因子值排序，选择前 3-5 名的品种做多，后 5-8 名的品种做空，那么就可以输入 <code>&quot;l:3~5_s:5~8&quot;</code> 这样的参数来实现。</p><p>这样的灵活的参数输入方式为合法性检查和参数解析带来比较大的压力，以至于我到目前为止大部分时间仍旧在处理这一件事情，过程相当头大。</p><p>话说回来，虽然 mentor 让我先读一读有色与黑色对冲策略的研报，但是现在还一篇都没读。看来实习工作好像有点懈怠，必须警惕。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;下午 13:00 准时来到办公室，坐下开始处理昨天 mentor 让我做的任务，也就是将策略整理成因子。这格式一看，好像跟之前舍友展示的因子框架差不多，都是对于每个因子设计一个类，然后在类中完成结构化的数据读取、策略逻辑实现和返回值。不同点可能在于，mentor 给的代码似乎需要直接返回持仓（而不是因子），从这个角度来看，也许 mentor</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 33：成为部门代表</title>
+    <link href="https://ifwhale.top/posts/324391ef/"/>
+    <id>https://ifwhale.top/posts/324391ef/</id>
+    <published>2024-06-06T23:29:11.000Z</published>
+    <updated>2024-06-06T23:33:38.164Z</updated>
+    
+    <content type="html"><![CDATA[<p>下午三点半来开会了，估计今天的班就这么上完了。听讲座无聊顺便写写日记好了。标题所说的成为代表言过其实，真相是大家都没空所以派遣我来了。</p><p>其实今天没啥好写的，因为做的工作仍然是挖掘有用的基本面数据。昨天下班前的结果是 2023 年仍然有回撤，因此今天挖掘指标的过程主要关注指标在 2023 年的收益表现，当然也不会忽略其他年份的收益稳健性。数据做到现在，感觉能用的指标已经越来越少了，大部分尝试的指标绩效都很一般，但是好歹最后还是找到了一个机车产量的指标，回测的结果显示在 2019 年后每一年都赚钱。机车产量指标分为当月同比和累计同比两项指标，单独回回测表现都不错，但是当月同比数据在合成黑色板块因子之后收益反而下降了，因此最终选择了合成后效果更好的累计同比数据。</p><p><img src="/.top//net_worth.png" alt="添加指标后的净值曲线"></p><p>结果还不错！先提交给 mentor 试试看。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;下午三点半来开会了，估计今天的班就这么上完了。听讲座无聊顺便写写日记好了。标题所说的成为代表言过其实，真相是大家都没空所以派遣我来了。&lt;/p&gt;
+&lt;p&gt;其实今天没啥好写的，因为做的工作仍然是挖掘有用的基本面数据。昨天下班前的结果是 2023 年仍然有回撤，因此今天挖掘指标的过程主要关注指标在 2023</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 32：缝缝补补</title>
+    <link href="https://ifwhale.top/posts/fea25464/"/>
+    <id>https://ifwhale.top/posts/fea25464/</id>
+    <published>2024-06-05T15:27:32.000Z</published>
+    <updated>2024-06-05T15:50:29.993Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天的状态并不是很好，没做很多事情。上午 mentor 反馈看一下策略在 2023 年的回撤有什么原因，然后我仔细一瞧发现大部分指标在 2023 年都亏钱，笑死。大部分回撤的指标都没法修复，只是其中一个基本面数据可以作作调整，也确实大幅减小了 2023 年的回撤幅度，但是过拟合的不安又隐隐升起。不过我现在学会拒绝内耗，过拟合就过拟合，反正做出来的图好看😀。</p><p><img src="/.top//f72996da-5cbb-4886-8240-5730d2a71db9.png" alt="修复后的净值曲线"></p><p>回到刚才的话题，回撤幅度虽然减小了但毕竟那一年还是亏钱的，于是我主动问问 mentor 要不要再多找找几个基本面数据，看看能不能解决 2023 年收益不好的问题，得到了肯定的回复。明天的活又有了。</p><p>今天还被安排明天顶替正式员工去参加一个安全讲座，果然实习生的杂活虽迟但到✌。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天的状态并不是很好，没做很多事情。上午 mentor 反馈看一下策略在 2023 年的回撤有什么原因，然后我仔细一瞧发现大部分指标在 2023 年都亏钱，笑死。大部分回撤的指标都没法修复，只是其中一个基本面数据可以作作调整，也确实大幅减小了 2023</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 31：阶段性胜利（大概）</title>
+    <link href="https://ifwhale.top/posts/9744b4c5/"/>
+    <id>https://ifwhale.top/posts/9744b4c5/</id>
+    <published>2024-06-04T15:28:32.000Z</published>
+    <updated>2024-06-04T15:48:19.781Z</updated>
+    
+    <content type="html"><![CDATA[<p>上午照昨日弄完 hc 之后想了一下，发现其他品种没有办法按照同样的方式来进行。主要原因在于，我只有汽车、机械设备、房地产和建筑材料这四个行业的基本面数据，它们的直接需求是螺纹钢和热轧板卷，而对于铁矿、锰硅等等上有品种仅有间接需求。用行业数据再去一个个拟合上游品种收益，最后再合成黑色板块因子？感觉意义不大。于是我到 hc 为止，直接开始做黑色板块因子筛选。</p><p>公司的回测框架当然没有办法回测黑色板块指数，因为它就没有这一个数据。根据 mentor 的建议，我决定先在本地回测，后续再考虑在公司回测框架上回测的事宜。</p><p>折腾的思路和之前相差无几，因此效率还可以，一整天测试了十来个指标，大部分都没有什么用处。最后好歹选出来了六个指标，样本内回测效果非常好，一到样本外就开始回撤。无奈之下，我又仔细看了看各个指标在样本外的回测结果，毅然再次去除两个效果不好的指标，最终的结果终于算是能看了。</p><p><img src="/.top//38763294-0601-47ed-a419-e2210a87bfad.png" alt="全样本回测结果"></p><p>提交给 mentor，并指出这个因子用的数据指标有点少。看不出来她的情绪，只是说数据少不是关键，只要有逻辑就行，另外把研究过程写成笔记发给她。于是我哼哧哼哧开始写笔记，晚上回家总算是写完了。</p><p>明天看看 mentor 什么反应，希望这能够算是一个成果。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上午照昨日弄完 hc 之后想了一下，发现其他品种没有办法按照同样的方式来进行。主要原因在于，我只有汽车、机械设备、房地产和建筑材料这四个行业的基本面数据，它们的直接需求是螺纹钢和热轧板卷，而对于铁矿、锰硅等等上有品种仅有间接需求。用行业数据再去一个个拟合上游品种收益，最后再合成黑色板块因子？感觉意义不大。于是我到 hc</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 30：节奏加快</title>
+    <link href="https://ifwhale.top/posts/a6df465f/"/>
+    <id>https://ifwhale.top/posts/a6df465f/</id>
+    <published>2024-06-03T15:40:11.000Z</published>
+    <updated>2024-06-03T15:48:23.695Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天不顺。中午 mentor 找我吃饭谈话，指出我进度太慢了，而且思路可能不对，折腾半天没能出活。不过我之前确实思路很不清晰，现在稍微有一些思路但是也不能确定到底有没有用。在量化实习这一方面，我似乎还没有得到什么正反馈，对于手头的工作能不能作出成果没有信心。</p><p>下午抓紧时间弄了弄黑色板块整体的择时，发现做不出来。于是还是先从 hc 着手，看看能不能先把一个个品种的择时实现，过程虽然好一点，但是同样困难重重。Mentor 说夏普为 1 就够了，这件事情本身就挺让我纠结的。说实话，直接一直持有夏普估计就超过 1 了，但是我无疑换手率不能太低。也许不需要很高的超额，只需要赚钱就行了？毕竟回测系统给的这个数据基本都没有啥趋势的变化，要做丰富的历史回测真的有点困难。</p><p>Mentor 还让我有问题勤提问，这一点我也总是感觉问不出口，一部分原因是思路本身都没理清楚，根本不知道先问哪一个比较好 😓。总之下午焦头烂额，状态很糟糕。</p><p>明天应当降低一下期待，管它曲线丝不丝滑，夏普高就行。记得多跟 mentor 反馈。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;今天不顺。中午 mentor 找我吃饭谈话，指出我进度太慢了，而且思路可能不对，折腾半天没能出活。不过我之前确实思路很不清晰，现在稍微有一些思路但是也不能确定到底有没有用。在量化实习这一方面，我似乎还没有得到什么正反馈，对于手头的工作能不能作出成果没有信心。&lt;/p&gt;
+&lt;p&gt;下午抓紧时间弄了弄黑色板块整体的择时，发现做不出来。于是还是先从 hc</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 29：慢工出细活</title>
+    <link href="https://ifwhale.top/posts/f67833d2/"/>
+    <id>https://ifwhale.top/posts/f67833d2/</id>
+    <published>2024-05-31T14:48:59.000Z</published>
+    <updated>2024-05-31T15:30:10.248Z</updated>
+    
+    <content type="html"><![CDATA[<p>上午继续昨天的工作，又跟那个数据指标死磕了一会，<a href="https://en.wikipedia.org/wiki/Moving_average#:~:text=smoothing%20the%20data.-,Simple%20moving%20average,-%5Bedit%5D">简单移动平均线（SMA）</a>对最近的极端趋势反映能力较弱，因此我将其替换成了<a href="https://en.wikipedia.org/wiki/Moving_average#:~:text=average%20which%20follows.-,Exponential%20moving%20average,-%5Bedit%5D">指数移动平均线（EMA）</a>，再取一次时序滚动排序值，以此作为最终的因子。测试了一下，效果不算很好；替换了几组不同的参数，发现收益对参数比较敏感。于是，我以 5 为步长，对 EMA 的 $\alpha$ 和时序滚动排序值的窗口参数网格寻优，发现收益较好的参数大致集中在某一个区域，于是我取这块区域中心位置，作为最终的参数。查看了一下这组参数下的净值曲线，确实还算不错。出于谨慎，我直接测试了这组参数在测试集中的表现，好像真的还可以！这意味着，这样的挖掘方式应该是能够出活的。</p><p><img src="/.top//tmp3209.png" alt="我最终选择的参数组合是 (25, 60)"></p><p><img src="/.top//bd74661d-6433-4394-b7da-779e1f53fb71.png" alt="样本内回测净值"></p><p>今天接下来的时间，我又测试了另外两个基本面数据。数据的处理方式各有差异，但是挖掘方式基本相同——盯数据，找规律，并尝试对数据进行处理来反映这一规律，最后再参数寻优。</p><p>事实上，由于基本面数据样本量较少，参数太多存在很高的过拟合风险。因此，在模型只有两个参数的情况下，若效果好的参数集中在某一范围之内，才能有勇气去尝试这样的参数组合。</p><p>到目前为止，我所处理的都是需求数据。需求当然是价格的重要作用因素，但如果仅考虑需求则难免偏颇。根据我的理解，最基础的价格形成因素就是需求和供给，因此至少还需要考虑供给因素。当然，政策、预期、突发事件、情绪也是重要的因素，但我目前的想法是先把需求和供给，或者供给与需求之差给做好。</p><p>时至周五，周末的氛围已经洋溢在办公室的空间。恰逢季度生日会，办公室的同事们都没有心思工作了，我也收到怂恿去现场蹭吃蹭喝。房间的甜点琳琅满目，还有参加飞叠杯游戏赢奖品的环节，但是我还是决定以食物为主。吃了点水果、蛋糕和肯德基的鸡翅，味道都还不错，心满意足地带上书包下班，白嫖的感觉真好。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;上午继续昨天的工作，又跟那个数据指标死磕了一会，&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 28：果然不对劲</title>
+    <link href="https://ifwhale.top/posts/848778d/"/>
+    <id>https://ifwhale.top/posts/848778d/</id>
+    <published>2024-05-30T14:13:10.000Z</published>
+    <updated>2024-05-30T14:14:01.149Z</updated>
+    
+    <content type="html"><![CDATA[<p>果然不对劲，空头的持仓就应该是负数不是正数。这个回测框架要求 <code>nShortRatio</code> 必须是正数，否则不会做空。也就是说我昨天的回测结果是错的，这个策略真实性能不行。此外，<code>weight</code> 参数不能设置成 <code>False</code> 也是一个 bug，跟我的数据没关系。跟负责这个回测框架的同事掰扯半天，他终于认真去改框架了。</p><p>一想到接下来还是必须使用这个回测框架就令人抓耳挠腮。</p><p>既然策略不行就继续改。下午苦思冥想，决定还是应该对基本面数据精挑细选，作精细化的处理。我决定先对螺纹钢下手，因为它的下游需求很明确，基本就是房地产和基础建设。接着查看它所对应的基本面数据，我选出了“100大中城市地产交易规划建筑面积”这一指标，因为它看上去和螺纹钢的需求最直接相关。</p><p>仔细检查了一下数据，这是一个周频数据，波动很剧烈，但是周期变化比较明确。因此，我先对其计算 50 日移动平均线以平滑化处理，再计算同比数据，来作为最终的因子。</p><p>回测了一下（还是自己的回测框架好用啊！），虽然总体收益是正的，而且 2020 年后也有正收益，但是整体波动很剧烈，应该不太行。再瞧一瞧数据，感觉这个指标和螺纹钢的合约价格确实没有特别强的相关性。明天如果还是想不到办法，也许就应该淘汰掉，再继续尝试下一个。</p><p>Mentor 叫我多看看研报和书籍，明天也一并找找看好了。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;果然不对劲，空头的持仓就应该是负数不是正数。这个回测框架要求 &lt;code&gt;nShortRatio&lt;/code&gt; 必须是正数，否则不会做空。也就是说我昨天的回测结果是错的，这个策略真实性能不行。此外，&lt;code&gt;weight&lt;/code&gt; 参数不能设置成 &lt;code&gt;False&lt;/code&gt; 也是一个</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>阅读笔记丨《海边的卡夫卡》——少年乌鸦的奇幻漂流</title>
+    <link href="https://ifwhale.top/posts/b8cc98c5/"/>
+    <id>https://ifwhale.top/posts/b8cc98c5/</id>
+    <published>2024-05-30T13:55:10.000Z</published>
+    <updated>2024-05-30T14:04:09.250Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/.top//s33607563.jpg" alt="海边的卡夫卡"></p><p>故事的开头就像只是普通写实的小说，除了“叫乌鸦的少年”令人联想到多重人格以外，似乎就是一本普通的少年离家出走的故事。而野游的孩童们集体晕倒又失去记忆，也似乎会在后文给出什么科学的解释。</p><p>然而故事情节自第 15 章左右后开始了逐渐离谱的展开。收集猫的灵魂来制作笛子的神秘人、从天而降的竹䇲鱼和蚂蟥、拉皮条的肯德基老爷爷、性别模糊的大岛、无法逃离的预言式诅咒……场景愈加光怪陆离，作者仿佛在对读者说：如果你要用脑子来读这本书，那你就错了。</p><p>事实上，想象力相比于逻辑性更适用于这篇小说的阅读。村上春树的描写功底十分了得，情节中的场景氛围一直在发生变化。许多画面让人不禁联想：如果这一幕被拍成电影会是什么样子。尤其是在卡夫卡不顾一切朝深林迈去的一章里，幽暗危险的丛林与赤手空拳的十五岁少年之间形成鲜明张力，回忆和杂念汹涌铺陈开来，仿佛影片中的蒙太奇和闪回手法。作者在这一部分完全以意识流的方式写作，浓烈的个人情绪得到淋漓尽致的展现。</p><p>也许这就是日本对于灵异鬼怪的理解：超出逻辑的事情不一定意味着恐怖和惊悚，也可以只是对现实逻辑的一点点改动，比如能够与猫对话的老人，亦或是从天而降的鱼蛭。这样的灵异发生在每一个人身上，渗透进社会里、生活里，成为情节展开的底色。</p><p>故事里涉及的人物很多，而几乎每一个都有着不同寻常的人生际遇。相同点是，每个人都在寻求自身的圆满，或是等待补偿过去人生的缺口。小说的结尾，星野君成为了下一个中田，而卡夫卡回到了东京开始上学，看似仅仅是回到开头，但是每个人都重新找到了人生的目的。</p><p>一些喜欢的语句：</p><blockquote><p>那里有一切，但没有部分。没有部分，也就没必要将什么和什么换来换去。无须卸掉或安上什么。不必冥思苦索，委身于一切即可。对中田来说，那是比什么都值得庆幸的。</p></blockquote><blockquote><p>一切都是想像力的问题。我们的责任从想像力中开始。叶芝写道：In dreams begin the responsibilities。诚哉斯言。反言之，没有想像力，责任也就无从产生，或许。</p></blockquote><blockquote><p>田村卡夫卡君，我们的人生有个至此再后退不得的临界点，另外虽然情况十分少见，但至此再前进不得的点也是有的。那个点到来的时候，好也罢坏也罢，我们都只能默默接受。我们便是这样活着。</p></blockquote><blockquote><p>缺乏想像力的狭隘、苛刻、自以为是的命题、空洞的术语、被篡夺的理想、僵化的思想体系——对我来说，真正可怕是这些东西。我从心底畏惧和憎恶这些东西。何为正确何为不正确——这当然是十分重要的问题。但这种个别判断失误，在很多情况下事后不是不可以纠正。只要有主动承认错误的勇气，一般都可以挽回。然而缺乏想像力的狭隘和苛刻却同寄生虫无异，它们改变赖以寄生的主体、改变自身形状而无限繁衍下去。这里没有获救希望。作为我，不愿意让那类东西进入这里。</p></blockquote><blockquote><p>不是人选择命运，而是命运选择人。这是希腊悲剧根本的世界观。这种悲剧性——亚里士多德是这样下的定义——令人哭笑不得的是，与其说是起因于当事者的缺点，毋宁说是以其优点为杠杆产生的。我的意思你可明白？人不是因其缺点、而是因其优点而被拖入更大的悲剧之中的。索福克勒斯的《俄狄浦斯王》即是显例。俄狄浦斯王不是因其怠惰和愚钝、而恰恰是因其勇敢和正直才给他带来了悲剧。</p></blockquote><blockquote><p>“记住，哪里也不存在旨在结束战争的战争。”叫乌鸦的少年说，“战争在战争本身中成长，它吮吸因暴力而流出的血、咬噬因暴力而受伤的肉发育长大。战争是一种完完全全的活物。这点你必须了解。”</p></blockquote>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/.top//s33607563.jpg&quot; alt=&quot;海边的卡夫卡&quot;&gt;&lt;/p&gt;
+&lt;p&gt;故事的开头就像只是普通写实的小说，除了“叫乌鸦的少年”令人联想到多重人格以外，似乎就是一本普通的少年离家出走的故事。而野游的孩童们集体晕倒又失去记忆，也似乎会在后文给出什么科学的解释。&lt;/p&gt;
+&lt;p&gt;然而故事情节自第 15</summary>
+        
+      
+    
+    
+    
+    <category term="赏阅纪" scheme="https://ifwhale.top/categories/%E8%B5%8F%E9%98%85%E7%BA%AA/"/>
+    
+    
+    <category term="阅读笔记" scheme="https://ifwhale.top/tags/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="海边的卡夫卡" scheme="https://ifwhale.top/tags/%E6%B5%B7%E8%BE%B9%E7%9A%84%E5%8D%A1%E5%A4%AB%E5%8D%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>量化实习 v2丨Day 27：公司的回测框架令人自闭</title>
+    <link href="https://ifwhale.top/posts/26e2d3bf/"/>
+    <id>https://ifwhale.top/posts/26e2d3bf/</id>
+    <published>2024-05-29T15:47:55.000Z</published>
+    <updated>2024-05-29T15:50:02.840Z</updated>
+    
+    <content type="html"><![CDATA[<p>被迫使用公司的回测框架之后，折腾却一点没少。这个回测框架结构混乱，却又没有文档，其中有一两个组件还是 <code>.pyd</code> 文件，debug 都 de 不进去，完全是个黑箱。</p><p>因此，今天的一整天，我都在对这个回测框架进行代码适配。好不容易跑通了，并且对于好几个品种进行了回测，得到了很棒的效果，结果下班前一看持仓，发现全都是正的。但是按照我的因子生成的持仓怎么可能全是正的？</p><p>明天再检查下好了。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;被迫使用公司的回测框架之后，折腾却一点没少。这个回测框架结构混乱，却又没有文档，其中有一两个组件还是 &lt;code&gt;.pyd&lt;/code&gt; 文件，debug 都 de</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="回测框架" scheme="https://ifwhale.top/tags/%E5%9B%9E%E6%B5%8B%E6%A1%86%E6%9E%B6/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+</feed>

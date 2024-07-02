@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /css/
+Disallow: /js/
+Disallow: /img/
+Disallow: /atom.xml
+Disallow: /submit_urls.txt
+
+
+Sitemap: https://ifwhale.top/sitemap.xml
