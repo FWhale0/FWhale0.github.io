@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>量化实习 v2丨Day 50：不合预期但确实神奇的期限结构因子</title>
+      <link href="/posts/d247b77c/"/>
+      <url>/posts/d247b77c/</url>
+      
+        <content type="html"><![CDATA[<p>今日花了一天时间，好好检查了一下数据和程序逻辑，重点检查是否使用了未来数据；接着将目前为止所做的工作写了一份报告提交给带教，真够折腾的。</p><p>尽管做策略的时候已经很小心了，但是果然还是在不经意间引入了未来数据。而罪魁祸首就是 <code>pandas.DataFrame.resample()</code> 这一方法。</p><h2 id="pandas-的-resample-之谜"><a href="#pandas-的-resample-之谜" class="headerlink" title="pandas 的 resample() 之谜"></a><code>pandas</code> 的 <code>resample()</code> 之谜</h2><p>使用这一方法的场景是，由于我的回测框架无法设置调仓频率，因此不得不通过将因子值降频来保证非调仓交易日的因子值与上一交易日的因子值相同，以此来达到不调仓的效果。要做到这一点，我的思路是先将因子 <code>resample()</code> 一下，取最后一个值，然后再通过 <code>reindex()</code> 回到之前的因子格式，举例如</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># use resample() to resample</span></span><br><span class="line">index = pd_shift.index</span><br><span class="line"></span><br><span class="line">factor = pd_shift.resample(<span class="string">&quot;20D&quot;</span>).last()</span><br><span class="line">factor = factor.reindex(index)</span><br><span class="line">factor = factor.fillna(method=<span class="string">&#x27;ffill&#x27;</span>)</span><br></pre></td></tr></table></figure><p>然而这一方法的使用却出现了意外：<code>resample()</code> 的重采样是严格的，在它想要采样的时点，如果该时点不在原本的 <code>index</code> 中，就会将上一个找到的值强行作为这一时点的采样值。而因子值的 <code>index</code> 是确实了大量日期的，因为一部分日期不是交易日。这就会导致，有的重采样点会出现在非交易日，造成最后结果不符合预期。</p><p>为了保证按照原数据的 <code>index</code> 来重采样，就需要用到 <code>DataFrame</code> 的 <code>groupby()</code> 方法，如</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># use groupby() to resample</span></span><br><span class="line">index = pd_shift.index</span><br><span class="line"></span><br><span class="line">reindexed_pd_shift = pd_shift.reset_index()</span><br><span class="line">num_index = reindexed_pd_shift.index</span><br><span class="line"></span><br><span class="line">factor = reindexed_pd_shift.groupby(num_index// <span class="number">20</span>).last()</span><br><span class="line">factor = factor.set_index(<span class="string">&#x27;index&#x27;</span>)</span><br><span class="line">factor = factor.reindex(index)</span><br><span class="line">factor = factor.fillna(method=<span class="string">&#x27;ffill&#x27;</span>)</span><br></pre></td></tr></table></figure><h2 id="期限结构因子"><a href="#期限结构因子" class="headerlink" title="期限结构因子"></a>期限结构因子</h2><p>上一篇日记提到，我主要研究了两个期限结构因子：</p><h3 id="展期收益率因子"><a href="#展期收益率因子" class="headerlink" title="展期收益率因子"></a>展期收益率因子</h3><p>$$<br>R_t &#x3D; \left[\ln{\left(P_{t,n}\right) - \ln{\left(P_{t,d}\right)}} \right] \times {365\over N_{t,d} - N_{t,n}}<br>$$</p><p>其中，$P_{t,n}$ 和 $P_{t,d}$ 分别代表 $t$ 日近月合约与远月合约的价格，而 $N_{t,d}$ 和 $N_{t,n}$ 则分别代表远月合约和近月合约的到期日距离 $t$ 日天数。由于我手头数据并无合约到期日信息，因此我舍弃了因子结构的后半部分，实际上因子结构为<br>$$<br>R_t &#x3D; \ln{\left(P_{t,n}\right) - \ln{\left(P_{t,d}\right)}}<br>$$<br>变得更简单了。</p><p>这里能够调整的参数主要有二：</p><ul><li>持仓周期天数；</li><li>所选近月合约与远月合约组合，包括最近月合约与主力合约、最近月合约与次近月合约和最近月合约与最远月合约等。</li></ul><p>展期收益率可以理解为将近月合约平仓并向后展期到远月合约，这两个期货合约间的价差。若因子值为正说明近月合约价格高于远月合约价格，给出做多信号；反之则给出做空信号。</p><h3 id="基差动量因子"><a href="#基差动量因子" class="headerlink" title="基差动量因子"></a>基差动量因子</h3><p>$$<br>basis\ momentum&#x3D;\prod^t_{i&#x3D;t-R+1}\left(1+R^{T_1}_{fut,i}\right)-\prod^t_{i&#x3D;t-R+1}\left(1+R^{T_2}_{fut,i} \right)<br>$$</p><p>这一因子在一个给定的滚动窗口中反复计算两个合约的累计收益率，并作差来得到基差动量数值。其中，$R^{T_1}_{fut,i}$ 和 $R^{T_2}_{fut,i}$ 分别代表近月合约和远月合约在 $i$ 日的收益率，$R$ 表示计算累计收益率的窗口，得到的是 $t$ 日的因子值。</p><p>这里能调整三类参数：</p><ul><li>持仓周期天数；</li><li>所选近月合约与远月合约组合，包括最近月合约与主力合约、最近月合约与次近月合约和最近月合约与最远月合约等；</li><li>滚动窗口大小 $R$。</li></ul><p>因子值越大，说明近月合约价格的上涨幅度超过远月合约价格越多，则价差越可能回归，因此给出越强的做多信号；相反则给出越强的做空信号。</p><h2 id="回测结果"><a href="#回测结果" class="headerlink" title="回测结果"></a>回测结果</h2><p>以下回测均考虑 0.02% 的交易费率。</p><h3 id="展期收益率因子-1"><a href="#展期收益率因子-1" class="headerlink" title="展期收益率因子"></a>展期收益率因子</h3><p>对最近月合约与主力合约组合、最近月合约与次近月合约组合、最近月合约与最远月合约组合分别测试因子绩效。</p><h4 id="最近月合约与主力合约组合"><a href="#最近月合约与主力合约组合" class="headerlink" title="最近月合约与主力合约组合"></a>最近月合约与主力合约组合</h4><p>因子结构简单，但是有效。这一因子最有效的合约组合是最近月合约与主力合约。在这一组合下，因子收益率<strong>对参数不敏感</strong>，基本都能获得稳定收益，只是收益率有差别，这与因子带来的信息衰减和交易费率都有关。以 10 个交易日的持仓周期为例，本地回测结果：</p><p><img src="/posts/d247b77c/8c12dc51-417c-4e78-bdeb-705cc163fb35.png" alt="最近月合约与主力合约组合回测结果"></p><p>夏普比率能够达到 1.17。</p><h4 id="其他合约组合"><a href="#其他合约组合" class="headerlink" title="其他合约组合"></a>其他合约组合</h4><p>然而若尝试其他合约组合则会出现各种问题。无论是使用近月合约与次近月合约的组合，还是近月合约与最远月合约的组合，用同样的方式计算因子并回测的结果却呈现完全相反的结果。以最近月合约与最远月合约为例：</p><p><img src="/posts/d247b77c/dd5a9f2c-c3fb-4f4c-936e-6d58c3fc86fb.png" alt="最近月合约与最远月合约回测结果"></p><h3 id="基差动量因子-1"><a href="#基差动量因子-1" class="headerlink" title="基差动量因子"></a>基差动量因子</h3><p>由于这一因子存在更多参数，因此可以通过网格寻参来寻找较优参数。接下来，我将持有周期设为左轴，滚动窗口设为上轴来展示寻参结果，并仅展示回测的夏普比率数值。</p><h4 id="最近月合约与主力合约组合-1"><a href="#最近月合约与主力合约组合-1" class="headerlink" title="最近月合约与主力合约组合"></a>最近月合约与主力合约组合</h4><p>使用这一组合时，在本地回测能够得到较好收益曲线。本地参数网格搜索结果如下：</p><p><img src="/posts/d247b77c/tmpAAD.png" alt="最近月合约与主力合约组合网格搜索结果"></p><p>以回测结果较好的参数组合 (20, 210) 为例，回测结果如下图：</p><p><img src="/posts/d247b77c/a16f02bb-3b57-472f-809a-cd88ac0d6936.png" alt="参数组合 (20, 210) 回测结果"></p><h4 id="其他合约组合-1"><a href="#其他合约组合-1" class="headerlink" title="其他合约组合"></a>其他合约组合</h4><p>对于最近月合约与次近月合约和次近月合约的组合，则在本地回测效果欠佳。比如，对于最近月合约与次近月合约组合，其因子效果对于参数更加敏感，且基本都带来负收益：</p><p><img src="/posts/d247b77c/tmp8B03.png" alt="最近月合约与次近月合约组合网格搜索结果"></p><p>尝试 (25, 210) 这一本地回测结果为正的参数组合，本地回测结果如下：</p><p><img src="/posts/d247b77c/62aeba5f-3dbb-4133-aee0-9a3c70636849.png" alt="参数组合 (25, 210) 回测结果"></p><p>绩效尚可。但是由于参数的敏感性，这一收益曲线存在过拟合嫌疑。而尝试其他参数组合时，基本回测结果都很差劲。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>根据以上结果，无论使用展期收益率因子还是基差动量因子，都只有采用<strong>最近月合约与主力合约组合</strong>才能获得最稳健的收益。此外，我还稍微测试了一下因子在不同板块中的表现，似乎黑色板块相对是拖后腿的家伙，去掉这一板块之后，因子绩效倾向于变得更好。</p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a class="link-card" target="_blank" href="https://www.htsec.com/jfimg/colimg/upload/20170309/38441489040672863.pdf"><span class="LinkCard-contents"><span style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-height: 40px; line-height: 1.25; color: #121212;">FICC系列研究之二——基于动量和期限结构的商品期货策略</span><span style="display: -webkit-box; font-size: 13px; height: 18px; line-height: 18px; color: #999; word-break: break-all; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 1; -webkit-box-orient: vertical;"><span style="display: inline-flex; align-items: center;"><svg class="Zi Zi--InsertLink" fill="currentColor" viewbox="0 0 24 24" width="14" height="14"><path d="M13.414 4.222a4.5 4.5 0 1 1 6.364 6.364l-3.005 3.005a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 0-.707l3.005-3.005a2.5 2.5 0 1 0-3.536-3.536l-3.005 3.005a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 0-.707l3.005-3.005zm-6.187 6.187a.5.5 0 0 1 .638-.058l.07.058.706.707a.5.5 0 0 1 .058.638l-.058.07-3.005 3.004a2.5 2.5 0 0 0 3.405 3.658l.13-.122 3.006-3.005a.5.5 0 0 1 .638-.058l.069.058.707.707a.5.5 0 0 1 .058.638l-.058.069-3.005 3.005a4.5 4.5 0 0 1-6.524-6.196l.16-.168 3.005-3.005zm8.132-3.182a.25.25 0 0 1 .353 0l1.061 1.06a.25.25 0 0 1 0 .354l-8.132 8.132a.25.25 0 0 1-.353 0l-1.061-1.06a.25.25 0 0 1 0-.354l8.132-8.132z"/></svg></span><span>https://www.htsec.com/jfimg/colimg/upload/20170309/38441489040672863.pdf</span></span></span></a></p><p><a class="link-card" target="_blank" href="https://www.htsec.com/jfimg/colimg/upload/20170821/7561503296377058.pdf"><span class="LinkCard-contents"><span style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-height: 40px; line-height: 1.25; color: #121212;">FICC系列研究之五——商品期货因子挖掘与组合构建再探究 </span><span style="display: -webkit-box; font-size: 13px; height: 18px; line-height: 18px; color: #999; word-break: break-all; text-overflow: ellipsis; overflow: hidden; -webkit-line-clamp: 1; -webkit-box-orient: vertical;"><span style="display: inline-flex; align-items: center;"><svg class="Zi Zi--InsertLink" fill="currentColor" viewbox="0 0 24 24" width="14" height="14"><path d="M13.414 4.222a4.5 4.5 0 1 1 6.364 6.364l-3.005 3.005a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 0-.707l3.005-3.005a2.5 2.5 0 1 0-3.536-3.536l-3.005 3.005a.5.5 0 0 1-.707 0l-.707-.707a.5.5 0 0 1 0-.707l3.005-3.005zm-6.187 6.187a.5.5 0 0 1 .638-.058l.07.058.706.707a.5.5 0 0 1 .058.638l-.058.07-3.005 3.004a2.5 2.5 0 0 0 3.405 3.658l.13-.122 3.006-3.005a.5.5 0 0 1 .638-.058l.069.058.707.707a.5.5 0 0 1 .058.638l-.058.069-3.005 3.005a4.5 4.5 0 0 1-6.524-6.196l.16-.168 3.005-3.005zm8.132-3.182a.25.25 0 0 1 .353 0l1.061 1.06a.25.25 0 0 1 0 .354l-8.132 8.132a.25.25 0 0 1-.353 0l-1.061-1.06a.25.25 0 0 1 0-.354l8.132-8.132z"/></svg></span><span>https://www.htsec.com/jfimg/colimg/upload/20170821/7561503296377058.pdf</span></span></span></a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 量化实习日记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Quant </tag>
+            
+            <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>量化实习 v2丨Day 49：更高、更快、更强</title>
       <link href="/posts/c8d7bab9/"/>
       <url>/posts/c8d7bab9/</url>
@@ -22,9 +51,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -51,9 +80,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -80,9 +109,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -109,9 +138,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -138,9 +167,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -167,9 +196,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -196,9 +225,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -225,9 +254,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -254,9 +283,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -283,9 +312,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -312,9 +341,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -341,9 +370,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -370,9 +399,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -399,9 +428,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -428,9 +457,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -457,9 +486,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -486,9 +515,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -515,9 +544,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -544,9 +573,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -602,9 +631,9 @@
             
             <tag> 回测框架 </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -658,9 +687,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -687,9 +716,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -716,9 +745,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -745,9 +774,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -774,9 +803,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -803,9 +832,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -832,9 +861,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -861,9 +890,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -890,9 +919,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -919,9 +948,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -948,9 +977,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -977,9 +1006,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1006,9 +1035,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1035,9 +1064,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1064,9 +1093,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
             <tag> 行业基本面 </tag>
             
@@ -1095,9 +1124,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1151,9 +1180,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1180,9 +1209,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1209,9 +1238,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1265,9 +1294,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1294,9 +1323,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1381,11 +1410,11 @@
             
             <tag> 职业发展 </tag>
             
+            <tag> 实习 </tag>
+            
             <tag> 随笔 </tag>
             
             <tag> 心情 </tag>
-            
-            <tag> 实习 </tag>
             
         </tags>
       
@@ -1499,9 +1528,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1528,9 +1557,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1557,9 +1586,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1586,9 +1615,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1640,9 +1669,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1669,9 +1698,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1698,9 +1727,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1727,9 +1756,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
@@ -1756,9 +1785,9 @@
             
             <tag> Quant </tag>
             
-            <tag> 实习 </tag>
-            
             <tag> 日记 </tag>
+            
+            <tag> 实习 </tag>
             
         </tags>
       
