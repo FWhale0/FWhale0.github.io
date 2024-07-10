@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>量化实习 v2丨Day 54：就这么着吧</title>
+      <link href="/posts/75f46a68/"/>
+      <url>/posts/75f46a68/</url>
+      
+        <content type="html"><![CDATA[<p>尝试对策略进行风险管理，但是几无思路。上网找了一些资料，尝试了两种方法，一种是根据策略回撤来决定是否开平仓，一种是根据各品种净值回撤来调整各品种持仓权重。但是无论是哪一种方法，效果都不好，只会导致原本的夏普比率下降。这样做真的有意义吗？</p><p>把当前工作写了文档发给带教，带教让我先把黑色和有色的数据再筛一遍。感觉这段时间确实没学到什么……而且筛数据的事情现在另外两个实习生也在做，感觉实际上就是不知道给我安排什么活了。接下来就慢慢摸鱼？</p><p>过几天就离职了，感觉最后的工作并没有啥产出，稀里糊涂地这三个月就这么结束了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 量化实习日记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Quant </tag>
+            
+            <tag> 实习 </tag>
+            
+            <tag> 日记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>量化实习 v2丨Day 51：周五综合征</title>
       <link href="/posts/2746c340/"/>
       <url>/posts/2746c340/</url>
@@ -1470,9 +1499,9 @@
             
             <tag> Quant </tag>
             
-            <tag> Quant-Interview </tag>
-            
             <tag> 量化面试绿皮书 </tag>
+            
+            <tag> Quant-Interview </tag>
             
         </tags>
       
@@ -1499,9 +1528,9 @@
             
             <tag> Quant </tag>
             
-            <tag> Quant-Interview </tag>
-            
             <tag> 量化面试绿皮书 </tag>
+            
+            <tag> Quant-Interview </tag>
             
         </tags>
       
@@ -1528,9 +1557,9 @@
             
             <tag> Quant </tag>
             
-            <tag> Quant-Interview </tag>
-            
             <tag> 量化面试绿皮书 </tag>
+            
+            <tag> Quant-Interview </tag>
             
         </tags>
       

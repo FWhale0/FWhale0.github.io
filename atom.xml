@@ -6,7 +6,7 @@
   <link href="https://ifwhale.top/atom.xml" rel="self"/>
   
   <link href="https://ifwhale.top/"/>
-  <updated>2024-07-05T09:10:02.000Z</updated>
+  <updated>2024-07-10T09:02:51.000Z</updated>
   <id>https://ifwhale.top/</id>
   
   <author>
@@ -17,11 +17,43 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>量化实习 v2丨Day 54：就这么着吧</title>
+    <link href="https://ifwhale.top/posts/75f46a68/"/>
+    <id>https://ifwhale.top/posts/75f46a68/</id>
+    <published>2024-07-10T08:58:48.000Z</published>
+    <updated>2024-07-10T09:02:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>尝试对策略进行风险管理，但是几无思路。上网找了一些资料，尝试了两种方法，一种是根据策略回撤来决定是否开平仓，一种是根据各品种净值回撤来调整各品种持仓权重。但是无论是哪一种方法，效果都不好，只会导致原本的夏普比率下降。这样做真的有意义吗？</p><p>把当前工作写了文档发给带教，带教让我先把黑色和有色的数据再筛一遍。感觉这段时间确实没学到什么……而且筛数据的事情现在另外两个实习生也在做，感觉实际上就是不知道给我安排什么活了。接下来就慢慢摸鱼？</p><p>过几天就离职了，感觉最后的工作并没有啥产出，稀里糊涂地这三个月就这么结束了。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;尝试对策略进行风险管理，但是几无思路。上网找了一些资料，尝试了两种方法，一种是根据策略回撤来决定是否开平仓，一种是根据各品种净值回撤来调整各品种持仓权重。但是无论是哪一种方法，效果都不好，只会导致原本的夏普比率下降。这样做真的有意义吗？&lt;/p&gt;
+&lt;p&gt;把当前工作写了文档发给带教，带教让我先把黑色和有色的数据再筛一遍。感觉这段时间确实没学到什么……而且筛</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>量化实习 v2丨Day 51：周五综合征</title>
     <link href="https://ifwhale.top/posts/2746c340/"/>
     <id>https://ifwhale.top/posts/2746c340/</id>
     <published>2024-07-05T08:52:34.000Z</published>
-    <updated>2024-07-05T09:10:02.000Z</updated>
+    <updated>2024-07-05T14:01:16.007Z</updated>
     
     <content type="html"><![CDATA[<p>上午提交了一下因子代码，但是下午带教让我再多想想，把夏普进一步提高一下。</p><p>然而今天是又一个周五，慵懒的气息弥漫在办公室里，加之下午又困困的，实在是不想再工作了，于是读了一篇关于高频交易的<a href="https://mp.weixin.qq.com/s/fRhgKDWW3TigoPuLRF8Kjg">科普文章</a>，读到一半真的开始打瞌睡了，于是又刷了刷手机，决定把下午就这么消耗掉算了。</p><p>对着日历算了算，今天结束之后，在这家公司的时间就只剩一周多几天了，时间过得真快。回头想一想，实在不觉得自己做了很多事情，除了做数据确实占用了一些时间以外，自己的摸索和思考也消耗工作时长，而且这样的过程里是没有明确成果产出的。</p><p>大部分研究策略的时间，我在做黑色板块策略的研究。由于几无参考，我完全是凭自己的感觉摸索出来了这个因子，当然中途也有不少带教和领导的点拨。相比之下，复现研报就快得多了，只需要按照研报上的方法一步一步做就可以了，而且这样的正反馈也更加及时，是容易产生成就感的。总得来说，鉴于我目前对于量化策略的研究仍然处于入门的阶段，也许多读一读研报论文，并以复现调优为主的工作能够带来更快的能力提升。</p><p>这段时间以来，我的研究一直缺乏系统性，有些碎片化。有时候找一下数据，偶尔又做一做横向项目，还常常花大量时间自己盯着数据思考构建因子的逻辑，简单的研报也复现了两三篇，无论是哪个工作都不够系统，而这家公司给我提供的工作范式本来就是不太系统的，这促使我在考虑下一份实习时，仍然倾向于先从量化私募开始投起。</p><p>然而量化私募哪有那么好投，何况这几个月来行情不但没有好装，反而依然在变得越来越差。两周？一个月？一切似乎只能慢慢来。</p>]]></content>
     
@@ -608,37 +640,6 @@
         
     <summary type="html">&lt;p&gt;今天不顺。中午 mentor 找我吃饭谈话，指出我进度太慢了，而且思路可能不对，折腾半天没能出活。不过我之前确实思路很不清晰，现在稍微有一些思路但是也不能确定到底有没有用。在量化实习这一方面，我似乎还没有得到什么正反馈，对于手头的工作能不能作出成果没有信心。&lt;/p&gt;
 &lt;p&gt;下午抓紧时间弄了弄黑色板块整体的择时，发现做不出来。于是还是先从 hc</summary>
-        
-      
-    
-    
-    
-    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
-    
-    
-    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
-    
-    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
-    
-    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>量化实习 v2丨Day 29：慢工出细活</title>
-    <link href="https://ifwhale.top/posts/f67833d2/"/>
-    <id>https://ifwhale.top/posts/f67833d2/</id>
-    <published>2024-05-31T14:48:59.000Z</published>
-    <updated>2024-05-31T15:30:10.248Z</updated>
-    
-    <content type="html"><![CDATA[<p>上午继续昨天的工作，又跟那个数据指标死磕了一会，<a href="https://en.wikipedia.org/wiki/Moving_average#:~:text=smoothing%20the%20data.-,Simple%20moving%20average,-%5Bedit%5D">简单移动平均线（SMA）</a>对最近的极端趋势反映能力较弱，因此我将其替换成了<a href="https://en.wikipedia.org/wiki/Moving_average#:~:text=average%20which%20follows.-,Exponential%20moving%20average,-%5Bedit%5D">指数移动平均线（EMA）</a>，再取一次时序滚动排序值，以此作为最终的因子。测试了一下，效果不算很好；替换了几组不同的参数，发现收益对参数比较敏感。于是，我以 5 为步长，对 EMA 的 $\alpha$ 和时序滚动排序值的窗口参数网格寻优，发现收益较好的参数大致集中在某一个区域，于是我取这块区域中心位置，作为最终的参数。查看了一下这组参数下的净值曲线，确实还算不错。出于谨慎，我直接测试了这组参数在测试集中的表现，好像真的还可以！这意味着，这样的挖掘方式应该是能够出活的。</p><p><img src="/posts/f67833d2/tmp3209.png" alt="我最终选择的参数组合是 (25, 60)"></p><p><img src="/posts/f67833d2/bd74661d-6433-4394-b7da-779e1f53fb71.png" alt="样本内回测净值"></p><p>今天接下来的时间，我又测试了另外两个基本面数据。数据的处理方式各有差异，但是挖掘方式基本相同——盯数据，找规律，并尝试对数据进行处理来反映这一规律，最后再参数寻优。</p><p>事实上，由于基本面数据样本量较少，参数太多存在很高的过拟合风险。因此，在模型只有两个参数的情况下，若效果好的参数集中在某一范围之内，才能有勇气去尝试这样的参数组合。</p><p>到目前为止，我所处理的都是需求数据。需求当然是价格的重要作用因素，但如果仅考虑需求则难免偏颇。根据我的理解，最基础的价格形成因素就是需求和供给，因此至少还需要考虑供给因素。当然，政策、预期、突发事件、情绪也是重要的因素，但我目前的想法是先把需求和供给，或者供给与需求之差给做好。</p><p>时至周五，周末的氛围已经洋溢在办公室的空间。恰逢季度生日会，办公室的同事们都没有心思工作了，我也收到怂恿去现场蹭吃蹭喝。房间的甜点琳琅满目，还有参加飞叠杯游戏赢奖品的环节，但是我还是决定以食物为主。吃了点水果、蛋糕和肯德基的鸡翅，味道都还不错，心满意足地带上书包下班，白嫖的感觉真好。</p>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;上午继续昨天的工作，又跟那个数据指标死磕了一会，&lt;a</summary>
         
       
     
