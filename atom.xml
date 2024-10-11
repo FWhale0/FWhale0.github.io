@@ -6,7 +6,7 @@
   <link href="https://ifwhale.top/atom.xml" rel="self"/>
   
   <link href="https://ifwhale.top/"/>
-  <updated>2024-10-07T13:43:32.306Z</updated>
+  <updated>2024-10-11T14:59:57.104Z</updated>
   <id>https://ifwhale.top/</id>
   
   <author>
@@ -17,11 +17,44 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>量化实习 v3丨Week 5：群策群力</title>
+    <link href="https://ifwhale.top/posts/42d27edd/"/>
+    <id>https://ifwhale.top/posts/42d27edd/</id>
+    <published>2024-10-11T14:47:10.000Z</published>
+    <updated>2024-10-11T14:59:57.104Z</updated>
+    
+    <content type="html"><![CDATA[<p>时间过得好快，而我的进展好慢。</p><p>带教大概看出我的状态不是很好，遂要求我每日提交一段工作总结到微信群。这样倒挺好的，还能倒逼自己一下。</p><p>这周做的事情也不太多，回测数据并形成了一份训练及结果的报告（用 <a href="https://marp.app/">Marp</a> 做完了 Slides，感觉还不错，效率挺高的），跟带教在线展示讨论了一会，确定了下一步能够改进的方向。</p><p>这周结束前还分到了一个新的北京服务器，终于不用再跟其他实习生抢算力了！</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;时间过得好快，而我的进展好慢。&lt;/p&gt;
+&lt;p&gt;带教大概看出我的状态不是很好，遂要求我每日提交一段工作总结到微信群。这样倒挺好的，还能倒逼自己一下。&lt;/p&gt;
+&lt;p&gt;这周做的事情也不太多，回测数据并形成了一份训练及结果的报告（用 &lt;a href=&quot;https://marp.app/&quot;&gt;Marp&lt;/a&gt; 做完了</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>量化实习 v3丨Week 4：深度幽灵</title>
     <link href="https://ifwhale.top/posts/d3610788/"/>
     <id>https://ifwhale.top/posts/d3610788/</id>
     <published>2024-10-07T13:26:23.000Z</published>
-    <updated>2024-10-07T13:43:32.306Z</updated>
+    <updated>2024-10-07T13:54:48.057Z</updated>
     
     <content type="html"><![CDATA[<p>由于国庆前仅有 1 个工作日，因此将这个工作日也合并到上周一起写了。</p><p>本周状态有所回升，RNN 的代码总算跑起来了。由于设备性能的限制，仅使用了小样本数据来试跑，可惜效果不佳。此时带教总算想起他还没有给我公司的算力，于是我又吭哧吭哧把代码转移到服务器上，在节前将更大样本的代码跑起来了。</p><p>滚动训练-预测的模式下，需要训练大量模型，我也肉眼盯了一下各个模型的训练过程，发现训练与训练的悲欢并不相通。有的模型一开始测试集 loss 很大，但是能够迅速下降，最后收敛到较低数值；有的一开始就 loss 很小，但是随着训练进行反而越来越大；有的在测试集 loss 下降到较低位置后开始上升，有明显过拟合现象；有的则半死不活，loss 几乎没有什么变化。</p><p>这让我开始思考，训练时是不是应该对各个模型加以更加精细的调教，或者在训练失败的情况下，多随机几次参数重新训练一下。当然，重新训练的成本很高，因此当务之急，似乎是考察一下当前训练的结果，并看看不同训练效果下，因子回测效果如何。</p>]]></content>
     
@@ -610,37 +643,6 @@
         
     <summary type="html">&lt;p&gt;真糟糕，虽然今天在策略研究上主要做的事情是编制有色板块价格指数，但是好像大部分时间没有用在这一方面，而具体做了些啥又想不太起来了。&lt;/p&gt;
 &lt;p&gt;有色的研究实际上才开始没多久，我将找到的研报整理好放到印象笔记里带教共享的笔记本中，因为印象笔记自动将 pdf</summary>
-        
-      
-    
-    
-    
-    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
-    
-    
-    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
-    
-    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
-    
-    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>量化实习 v2丨Day 37：勇闯有色世界</title>
-    <link href="https://ifwhale.top/posts/5c37f819/"/>
-    <id>https://ifwhale.top/posts/5c37f819/</id>
-    <published>2024-06-13T08:59:54.000Z</published>
-    <updated>2024-06-13T14:05:50.956Z</updated>
-    
-    <content type="html"><![CDATA[<p>上午本来想着最好别一直摸鱼，还是看看研报，结果这么一看就看到了下班。根据带教的说法，我可以仿照黑色的做法来刻画有色金属板块的景气度，然后再将其与黑色板块进行对冲。而就我的理解看来，实际上就是像之前那样把有色板块的择时因子做出来，然后配合黑色板块的择时因子来实现一个仅有两种资产的截面策略。而从带教的语气中，我察觉到做策略的过程不需要太遵守某些特定的规矩，可以比较自由地加入自己的想法。</p><p>于是我便开始上网搜寻资料。根据带教此前提供的一份配置，我将铝（al）、铜（cu）、镍（ni）、锌（zn）、铅（pb）、氧化铝（ao）和锡（sn）作为有色金属板块的组成成分。这其中，除了氧化铝是由铝加工而来以外，其他都由直接开采而来，没有上游材料。而氧化铝本身也只不过是电解铝的上游材料，基本上并非终端生产材料。除了氧化铝与铝以外，各种有色金属之间基本没有严格上下游关系，因此有色板块内部结构相较黑色板块而言更加松散。但从下游需求的角度来看，也并非毫不相干，因为大部分有色金属的行业需求都有所重叠，如电池、新能源汽车、电子产品等行业都会依赖其中的几种材料。</p><p>要想对有色板块的景气度进行建模，恐怕需要利用更加多元的基本面数据，涉及更大范围的行业和上下游关系。此外，似乎不一定要局限于大类行业，也可以从某一类电池、某一种机械产品的基本面资料等方面着手。这些方面能做的工作还有很多。</p>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;上午本来想着最好别一直摸鱼，还是看看研报，结果这么一看就看到了下班。根据带教的说法，我可以仿照黑色的做法来刻画有色金属板块的景气度，然后再将其与黑色板块进行对冲。而就我的理解看来，实际上就是像之前那样把有色板块的择时因子做出来，然后配合黑色板块的择时因子来实现一个仅有两种资产的截面策略。而从带教的语气中，我察觉到做策略的过程不需要太遵守某些特定的规矩，</summary>
         
       
     
