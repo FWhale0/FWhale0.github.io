@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>量化实习 v4丨Week 6：逐渐上手</title>
+      <link href="/posts/6a6a1b0a/"/>
+      <url>/posts/6a6a1b0a/</url>
+      
+        <content type="html"><![CDATA[<p>果然印证了我的判断：人的适应能力比自己想象的更强。这周开始，我对于深度学习的框架有了一定掌握，并且开始提出自己的质疑和思考。</p><p>这一次的训练大幅提升了训练集容量，这么做的结果是过拟合与不能拟合的情况确实减少了，但坏消息是，回测的情况看上去依然很差。仔细排查了代码，我发现一个可能很致命的问题：原本代码的损失函数，是将预测值与真实值的相关系数取绝对值再取负数。这一点致命之处在于，无法区分正相关与负相关，可能导致模型向相关系数为负且不断接近 -1 的方向收敛！</p><p>于是我绘制了不少图表，整理了一波这次的训练结果，做好了下周向带教老师回报的准备。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 量化实习日记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Quant </tag>
+            
+            <tag> 实习 </tag>
+            
+            <tag> 日记 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>量化实习 v3丨Week 5：群策群力</title>
       <link href="/posts/42d27edd/"/>
       <url>/posts/42d27edd/</url>

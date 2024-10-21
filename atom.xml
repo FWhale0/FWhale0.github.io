@@ -6,7 +6,7 @@
   <link href="https://ifwhale.top/atom.xml" rel="self"/>
   
   <link href="https://ifwhale.top/"/>
-  <updated>2024-10-11T14:59:57.104Z</updated>
+  <updated>2024-10-21T13:10:46.139Z</updated>
   <id>https://ifwhale.top/</id>
   
   <author>
@@ -17,11 +17,43 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>量化实习 v4丨Week 6：逐渐上手</title>
+    <link href="https://ifwhale.top/posts/6a6a1b0a/"/>
+    <id>https://ifwhale.top/posts/6a6a1b0a/</id>
+    <published>2024-10-21T13:04:29.000Z</published>
+    <updated>2024-10-21T13:10:46.139Z</updated>
+    
+    <content type="html"><![CDATA[<p>果然印证了我的判断：人的适应能力比自己想象的更强。这周开始，我对于深度学习的框架有了一定掌握，并且开始提出自己的质疑和思考。</p><p>这一次的训练大幅提升了训练集容量，这么做的结果是过拟合与不能拟合的情况确实减少了，但坏消息是，回测的情况看上去依然很差。仔细排查了代码，我发现一个可能很致命的问题：原本代码的损失函数，是将预测值与真实值的相关系数取绝对值再取负数。这一点致命之处在于，无法区分正相关与负相关，可能导致模型向相关系数为负且不断接近 -1 的方向收敛！</p><p>于是我绘制了不少图表，整理了一波这次的训练结果，做好了下周向带教老师回报的准备。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;果然印证了我的判断：人的适应能力比自己想象的更强。这周开始，我对于深度学习的框架有了一定掌握，并且开始提出自己的质疑和思考。&lt;/p&gt;
+&lt;p&gt;这一次的训练大幅提升了训练集容量，这么做的结果是过拟合与不能拟合的情况确实减少了，但坏消息是，回测的情况看上去依然很差。仔细排查了代码，我发现一个可能很致命的问题：原本代码的损失函数，是将预测值与真实值的相关系数取</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>量化实习 v3丨Week 5：群策群力</title>
     <link href="https://ifwhale.top/posts/42d27edd/"/>
     <id>https://ifwhale.top/posts/42d27edd/</id>
     <published>2024-10-11T14:47:10.000Z</published>
-    <updated>2024-10-11T14:59:57.104Z</updated>
+    <updated>2024-10-11T15:01:39.718Z</updated>
     
     <content type="html"><![CDATA[<p>时间过得好快，而我的进展好慢。</p><p>带教大概看出我的状态不是很好，遂要求我每日提交一段工作总结到微信群。这样倒挺好的，还能倒逼自己一下。</p><p>这周做的事情也不太多，回测数据并形成了一份训练及结果的报告（用 <a href="https://marp.app/">Marp</a> 做完了 Slides，感觉还不错，效率挺高的），跟带教在线展示讨论了一会，确定了下一步能够改进的方向。</p><p>这周结束前还分到了一个新的北京服务器，终于不用再跟其他实习生抢算力了！</p>]]></content>
     
@@ -611,38 +643,6 @@
         
     <summary type="html">&lt;p&gt;这周打算效率高一点，赶一赶进度，于是今天一直在整理数据，之前大概一周才完成的任务，今天一天就做得七七八八了。下班前，我下载好家用电器、电子、电力设备和交通运输四个行业的基本面数据，明天再整理成标准格式应该就可以提交了。&lt;/p&gt;
 &lt;p&gt;由于绝大部分指标都是在一个 PPT 里面找的，为了在下载数百条数据的过程中加快效率，我又写了一个 &lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
-    
-    
-    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
-    
-    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
-    
-    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>量化实习 v2丨Day 38：绘制有色指数</title>
-    <link href="https://ifwhale.top/posts/4d666db2/"/>
-    <id>https://ifwhale.top/posts/4d666db2/</id>
-    <published>2024-06-14T09:04:09.000Z</published>
-    <updated>2024-06-15T07:52:15.203Z</updated>
-    
-    <content type="html"><![CDATA[<p>真糟糕，虽然今天在策略研究上主要做的事情是编制有色板块价格指数，但是好像大部分时间没有用在这一方面，而具体做了些啥又想不太起来了。</p><p>有色的研究实际上才开始没多久，我将找到的研报整理好放到印象笔记里带教共享的笔记本中，因为印象笔记自动将 pdf 文件直接展示而不是作为附件直接展示而折腾了一通。整理研究文件夹时，发现上次带教给的数据实在太细碎了，完全没有必要地将数据按交易日拆分为一个个单独的 <code>.csv</code> 文件，一下子多出几十万个小文件和文件夹，导致重命名一下压力都很大。无奈之下又花了好长时间删除不必要的数据，整理起来很费劲。</p><p>下午做了一下有色价格指数的编制，实际上挺简单的，只不过是将此前黑色价格指数编制的遗产重复利用一下。我编制价格指数的时候会采用两种方法，一种是直接对各个品种的价格进行加权，而另一种则是对各个品种的收益率进行加权，再用收益率序列生成价格序列。思来想去，感觉似乎后者更加合理一些，原因有二：一是在直接加权平均价格的情况下，若列入新的期货品种则可能发生指数价格的突变，这很可能导致回测结果不准确；二是回测时往往直接将资金等权来交易各个品种，在这种情况下期货价格的绝对数值实际上是不重要的，重要的只是收益率而已。</p><p>做完了这些，感觉脑袋晕乎乎的，有点困顿，撑着脑袋眯了一小会，又找了找电子书，用作以后阅读。最近想读一读关于全球宏观经济观察分析的书籍，包括美元信用体系或者中国全球化参与什么的，但是没有找到合适的来源，就算有也很少有 <code>.mobi</code> 格式的版本。罢了，周五大家都走得很快，我也先下班好了。</p>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;真糟糕，虽然今天在策略研究上主要做的事情是编制有色板块价格指数，但是好像大部分时间没有用在这一方面，而具体做了些啥又想不太起来了。&lt;/p&gt;
-&lt;p&gt;有色的研究实际上才开始没多久，我将找到的研报整理好放到印象笔记里带教共享的笔记本中，因为印象笔记自动将 pdf</summary>
         
       
     
