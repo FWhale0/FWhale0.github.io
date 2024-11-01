@@ -6,7 +6,7 @@
   <link href="https://ifwhale.top/atom.xml" rel="self"/>
   
   <link href="https://ifwhale.top/"/>
-  <updated>2024-10-23T13:12:07.270Z</updated>
+  <updated>2024-11-01T15:17:01.243Z</updated>
   <id>https://ifwhale.top/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>量化实习 v3丨Week 7 &amp; 8 过山车般的体验</title>
+    <link href="https://ifwhale.top/posts/45d1c86e/"/>
+    <id>https://ifwhale.top/posts/45d1c86e/</id>
+    <published>2024-11-01T14:32:00.000Z</published>
+    <updated>2024-11-01T15:17:01.243Z</updated>
+    
+    <content type="html"><![CDATA[<p>想起来上周的周记也没写，干脆混在一起写得了。正好做深度学习研究以来大部分时间都在等待模型训练，能写代码的机会反而不多。</p><h2 id="工作总结"><a href="#工作总结" class="headerlink" title="工作总结"></a>工作总结</h2><p>从这两周的时间来看，工作还是有一些进展的。</p><p>首先是模型的损失函数。自从两周前我发现模型所用的损失函数有大问题后，这次我尝试使用 Rank IC 的相反数作为损失函数。由于 Rank 操作不可微分不能作为深度学习的损失函数，我尝试曲线救国用了 Soft Rank 方法，参见<a href="https://ifwhale.top/posts/af905acf/">这一篇文章</a>。</p><p>这样的改动带来的效果是明显的。首先大部分收敛可以朝着正确的方向进行了。其次，回测的情况也变得比以前更好，尽管仍然有很多问题需要解决，比如 2024 年 6 月后收益的反常下降、换手率较高带来的超强费率敏感性等等。</p><p><img src="/posts/45d1c86e/image-20241101225030974.png" alt="贴一个当前的回测结果"></p><p>其次是编写了一个组成 Portfolio 的 Python 模块。这个说法有点怪怪的，但是带教是这么说的，即要在生成持仓和回测的时候满足一些更加细节的定制化条件。这好办，正好我上一份实习中自己写了一份回测框架，只要在这个基础上再做一层封装即可使用。细节就不展开了。</p><p>最近两周的情绪基本跟着工作走。一旦工作取得了成效便如同打了鸡血一般，而当遇到瓶颈或者工作成果不好时便萎靡不振。说到底现在的求职行情逼着人不断行进，如果这段实习产出不佳，我可能无法留用或者在面试其他公司时获得青睐。想到这里好像都没法安慰自己。</p><h2 id="一些想法"><a href="#一些想法" class="headerlink" title="一些想法"></a>一些想法</h2><p>最近越来越觉得，人不能仅靠打工来维持收入。毕竟薪水是公司发的，将自己的收入决定权交到别人的手上，能有多少保障？何况近年来的就业行情也表明，仅靠努力工作不能解决一切问题。哪怕市场发生变化、政策发生变化，自己的收入都有可能不保。再者，市场化机构的工作本身也不是铁饭碗，谁也不知道明天自己会不会被炒鱿鱼。</p><p>所以这段时间以来，我一直在琢磨这件事，即如何在工作之外获得另一份收入。</p><p>首先是发展一份副业。这当然不是再打一份工，而是做一些小生意。我观察了别人的一些经历并产生了不少想法，比如开个闲鱼商家账户，靠贩卖电子资料来走量；或者是做一个大学生辅导中介，搭桥联系大学生来辅导另一位大学生，等等。虽然目前执行力没有那么强，但我觉得如果要开始的话，前一个想法的可行性更高。</p><p>其次是自营量化交易。这是与当前主业最相关的方式了，所谓的“主业养副业”。但这种方式的难点在于，一是我现在还没有成熟的策略，二是我没有钱……但是我想，先做一做策略来尝试模拟盘，也可以是一个不错的开始。</p><p>总而言之，我觉得人不能将自己与工作捆绑得太死，因为工作和薪水说到底是没有保证的收入来源，且我觉得人生关于赚钱的终极目标就是不用再上班。当然，副业也不能解决一切问题，主业与副业并驾齐驱才能形成收入“双保险”。何况以当前国内的人力市场，人越来便越不值钱，而副业虽然也不能保证稳定，但是好处在于，你永远有从头再来的机会。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;想起来上周的周记也没写，干脆混在一起写得了。正好做深度学习研究以来大部分时间都在等待模型训练，能写代码的机会反而不多。&lt;/p&gt;
+&lt;h2 id=&quot;工作总结&quot;&gt;&lt;a href=&quot;#工作总结&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>代码随笔丨Soft Rank：排序微分的解决之道</title>
@@ -50,11 +82,11 @@
   </entry>
   
   <entry>
-    <title>量化实习 v4丨Week 6：逐渐上手</title>
+    <title>量化实习 v3丨Week 6：逐渐上手</title>
     <link href="https://ifwhale.top/posts/6a6a1b0a/"/>
     <id>https://ifwhale.top/posts/6a6a1b0a/</id>
     <published>2024-10-21T13:04:29.000Z</published>
-    <updated>2024-10-21T13:31:53.346Z</updated>
+    <updated>2024-11-01T15:00:26.492Z</updated>
     
     <content type="html"><![CDATA[<p>果然印证了我的判断：人的适应能力比自己想象的更强。这周开始，我对于深度学习的框架有了一定掌握，并且开始提出自己的质疑和思考。</p><p>这一次的训练大幅提升了训练集容量，这么做的结果是过拟合与不能拟合的情况确实减少了，但坏消息是，回测的情况看上去依然很差。仔细排查了代码，我发现一个可能很致命的问题：原本代码的损失函数，是将预测值与真实值的相关系数取绝对值再取负数。这一点致命之处在于，无法区分正相关与负相关，可能导致模型向相关系数为负且不断接近 -1 的方向收敛！</p><p>于是我绘制了不少图表，整理了一波这次的训练结果，做好了下周向带教老师回报的准备。</p>]]></content>
     
@@ -611,39 +643,6 @@
         
     <summary type="html">&lt;p&gt;今天带教好像有点忙，似乎还没有处理完我的数据，而明天我又请了个假，也就是说我这周的工作就差不多是这样了。&lt;/p&gt;
 &lt;p&gt;在摸鱼的间隙还是决定继续构建一下回测框架。&lt;code&gt;Position&lt;/code&gt;</summary>
-        
-      
-    
-    
-    
-    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
-    
-    
-    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
-    
-    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
-    
-    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>量化实习 v2丨Day 40：间歇性摆烂</title>
-    <link href="https://ifwhale.top/posts/a06d820a/"/>
-    <id>https://ifwhale.top/posts/a06d820a/</id>
-    <published>2024-06-19T08:52:30.000Z</published>
-    <updated>2024-06-19T14:02:55.055Z</updated>
-    
-    <content type="html"><![CDATA[<p>上午提交了下载的数据，接下来就等待带教处理数据没啥事可干了。</p><p>下午打算继续开干回测框架，但是不知道为何动力熄火，看见代码就烦，写了二三十行就动不下去了，昏昏沉沉的，摸一会儿键盘就想看手机，真没意思。</p><p>有时候也挺怀疑自己对于这一行的热情是否足够支撑将来的事业，也许有一天会厌烦也说不定。下午想了想，自己天天做基本面数据的处理、按照自己的想法做策略，但是这样的工作方式也许并不具有普适性，如果未来去了别的公司或许也需要重新适应。而从面试的角度来看，数学、机器学习、算法、绿皮书等等方面其实都还挺欠缺的，但是又没有足够的动机去弥补。不知道下一次找实习的时候是否又会四处碰壁。</p><p>明天要好好恢复一下状态，记得周五要请假别忘了。</p>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;上午提交了下载的数据，接下来就等待带教处理数据没啥事可干了。&lt;/p&gt;
-&lt;p&gt;下午打算继续开干回测框架，但是不知道为何动力熄火，看见代码就烦，写了二三十行就动不下去了，昏昏沉沉的，摸一会儿键盘就想看手机，真没意思。&lt;/p&gt;
-&lt;p&gt;有时候也挺怀疑自己对于这一行的热情是否足够支撑将来的事业，也许有一天会厌烦也说不定。下午想了想，自己天天做基本面数据的处理、按</summary>
         
       
     
