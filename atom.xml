@@ -6,7 +6,7 @@
   <link href="https://ifwhale.top/atom.xml" rel="self"/>
   
   <link href="https://ifwhale.top/"/>
-  <updated>2024-11-01T15:17:01.243Z</updated>
+  <updated>2024-11-12T14:59:33.605Z</updated>
   <id>https://ifwhale.top/</id>
   
   <author>
@@ -17,11 +17,44 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>量化实习 v3丨Week 9：特征归因</title>
+    <link href="https://ifwhale.top/posts/75b0f34e/"/>
+    <id>https://ifwhale.top/posts/75b0f34e/</id>
+    <published>2024-11-12T14:45:23.000Z</published>
+    <updated>2024-11-12T14:59:33.605Z</updated>
+    
+    <content type="html"><![CDATA[<p>本周只做了一件事：对模型进行特征归因。</p><p>对于深度学习都堪堪上手的我来说，特征归因算是一个比较深入的话题了。在 GPT 的帮助下，我认识了不少特征归因的方法，最终决定采用最简单的梯度法。</p><p>这种方法讲起来蛮简单的，就是利用输入数据预测后，再调用 <code>backward()</code> 来计算输入数据的梯度。但是在实际的实现中，我却碰到了不少困扰。</p><p>首先是需要完全复刻对于数据的处理方式。我构建的数据 Pipeline 有不少流程，再加上数据量很大，因此跑起来速度非常感人。为此，我花了不少时间在数据处理的加速上，可惜大概只将处理时间降低了 30% 左右。</p><p>其次是对于梯度的计算，这方面我踩了不少坑，包括梯度运算极慢、算出来没有梯度、显存爆炸等等，具体就不细说了。</p><p>总之最后还是算出来了这么个结果。可惜的是，结果表明各个特征的梯度相对比较平均，都在一个数量级。可以说模型对于每个特征的利用称得上很均衡了。也就是说，这周的工作没有起到对模型进行迭代的作用。</p><p>罢了，总会有这样的时候。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;本周只做了一件事：对模型进行特征归因。&lt;/p&gt;
+&lt;p&gt;对于深度学习都堪堪上手的我来说，特征归因算是一个比较深入的话题了。在 GPT 的帮助下，我认识了不少特征归因的方法，最终决定采用最简单的梯度法。&lt;/p&gt;
+&lt;p&gt;这种方法讲起来蛮简单的，就是利用输入数据预测后，再调用 &lt;code&gt;backward()&lt;/code&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>量化实习 v3丨Week 7 &amp; 8 过山车般的体验</title>
     <link href="https://ifwhale.top/posts/45d1c86e/"/>
     <id>https://ifwhale.top/posts/45d1c86e/</id>
     <published>2024-11-01T14:32:00.000Z</published>
-    <updated>2024-11-01T15:17:01.243Z</updated>
+    <updated>2024-11-01T15:23:39.904Z</updated>
     
     <content type="html"><![CDATA[<p>想起来上周的周记也没写，干脆混在一起写得了。正好做深度学习研究以来大部分时间都在等待模型训练，能写代码的机会反而不多。</p><h2 id="工作总结"><a href="#工作总结" class="headerlink" title="工作总结"></a>工作总结</h2><p>从这两周的时间来看，工作还是有一些进展的。</p><p>首先是模型的损失函数。自从两周前我发现模型所用的损失函数有大问题后，这次我尝试使用 Rank IC 的相反数作为损失函数。由于 Rank 操作不可微分不能作为深度学习的损失函数，我尝试曲线救国用了 Soft Rank 方法，参见<a href="https://ifwhale.top/posts/af905acf/">这一篇文章</a>。</p><p>这样的改动带来的效果是明显的。首先大部分收敛可以朝着正确的方向进行了。其次，回测的情况也变得比以前更好，尽管仍然有很多问题需要解决，比如 2024 年 6 月后收益的反常下降、换手率较高带来的超强费率敏感性等等。</p><p><img src="/posts/45d1c86e/image-20241101225030974.png" alt="贴一个当前的回测结果"></p><p>其次是编写了一个组成 Portfolio 的 Python 模块。这个说法有点怪怪的，但是带教是这么说的，即要在生成持仓和回测的时候满足一些更加细节的定制化条件。这好办，正好我上一份实习中自己写了一份回测框架，只要在这个基础上再做一层封装即可使用。细节就不展开了。</p><p>最近两周的情绪基本跟着工作走。一旦工作取得了成效便如同打了鸡血一般，而当遇到瓶颈或者工作成果不好时便萎靡不振。说到底现在的求职行情逼着人不断行进，如果这段实习产出不佳，我可能无法留用或者在面试其他公司时获得青睐。想到这里好像都没法安慰自己。</p><h2 id="一些想法"><a href="#一些想法" class="headerlink" title="一些想法"></a>一些想法</h2><p>最近越来越觉得，人不能仅靠打工来维持收入。毕竟薪水是公司发的，将自己的收入决定权交到别人的手上，能有多少保障？何况近年来的就业行情也表明，仅靠努力工作不能解决一切问题。哪怕市场发生变化、政策发生变化，自己的收入都有可能不保。再者，市场化机构的工作本身也不是铁饭碗，谁也不知道明天自己会不会被炒鱿鱼。</p><p>所以这段时间以来，我一直在琢磨这件事，即如何在工作之外获得另一份收入。</p><p>首先是发展一份副业。这当然不是再打一份工，而是做一些小生意。我观察了别人的一些经历并产生了不少想法，比如开个闲鱼商家账户，靠贩卖电子资料来走量；或者是做一个大学生辅导中介，搭桥联系大学生来辅导另一位大学生，等等。虽然目前执行力没有那么强，但我觉得如果要开始的话，前一个想法的可行性更高。</p><p>其次是自营量化交易。这是与当前主业最相关的方式了，所谓的“主业养副业”。但这种方式的难点在于，一是我现在还没有成熟的策略，二是我没有钱……但是我想，先做一做策略来尝试模拟盘，也可以是一个不错的开始。</p><p>总而言之，我觉得人不能将自己与工作捆绑得太死，因为工作和薪水说到底是没有保证的收入来源，且我觉得人生关于赚钱的终极目标就是不用再上班。当然，副业也不能解决一切问题，主业与副业并驾齐驱才能形成收入“双保险”。何况以当前国内的人力市场，人越来便越不值钱，而副业虽然也不能保证稳定，但是好处在于，你永远有从头再来的机会。</p>]]></content>
     
@@ -611,38 +644,6 @@
         
     <summary type="html">&lt;p&gt;上午又来了两位实习生，终于可以凑一桌麻将了。&lt;/p&gt;
 &lt;p&gt;一问带教才知道，原来有色数据还没开始弄😓，白等了两三天。不过既然没数据用不如自己捣鼓一下，复现了一下领导之前发在群里的&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
-    
-    
-    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
-    
-    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
-    
-    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>量化实习 v2丨Day 41：回测框架逐步成型</title>
-    <link href="https://ifwhale.top/posts/10cdd80a/"/>
-    <id>https://ifwhale.top/posts/10cdd80a/</id>
-    <published>2024-06-20T08:59:56.000Z</published>
-    <updated>2024-06-23T16:25:12.944Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天带教好像有点忙，似乎还没有处理完我的数据，而明天我又请了个假，也就是说我这周的工作就差不多是这样了。</p><p>在摸鱼的间隙还是决定继续构建一下回测框架。<code>Position</code> 这个类其实写起来挺麻烦的，我上次遗留的进度是将未赋权的持仓数据转换成赋权后的持仓数据。我预想了好几种权重计算方法，但是由于懒惰，仅实现了等权的计算函数，之后如果有其他需求再说。</p><p>接着，我又稍微写了一下因子基类 <code>FacBasic</code> 用来被将来可能编写的各个因子继承；一个 <code>FacData</code> 类，用于利用因子类来生成因子数据。这一部分我目前想法不多，因此仅实现了基本框架，之后有需要再细想好了。</p><p>放假！</p>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;今天带教好像有点忙，似乎还没有处理完我的数据，而明天我又请了个假，也就是说我这周的工作就差不多是这样了。&lt;/p&gt;
-&lt;p&gt;在摸鱼的间隙还是决定继续构建一下回测框架。&lt;code&gt;Position&lt;/code&gt;</summary>
         
       
     
