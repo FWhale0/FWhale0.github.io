@@ -6,7 +6,7 @@
   <link href="https://ifwhale.top/atom.xml" rel="self"/>
   
   <link href="https://ifwhale.top/"/>
-  <updated>2024-11-12T15:02:01.598Z</updated>
+  <updated>2024-11-17T15:13:23.301Z</updated>
   <id>https://ifwhale.top/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>量化实习 v3丨Week 10：因子矿工再出发</title>
+    <link href="https://ifwhale.top/posts/ed333396/"/>
+    <id>https://ifwhale.top/posts/ed333396/</id>
+    <published>2024-11-17T00:15:21.000Z</published>
+    <updated>2024-11-17T15:13:23.301Z</updated>
+    
+    <content type="html"><![CDATA[<p>这周的工作就比较懒散了。周一汇总好了上周的工作产出，由于带教一直不看就拖到了周二。而周二我则整理了几篇研报对于 RNN 模型因子的改进方法，带教又不回复，就这么到了周三。</p><p>在我的催促下，带教在周三终于回复了意见，接下来的工作方向是输入更多特征和引入注意力机制。先尝试构造更多的特征用来训练，并趁着训练时间里开发注意力机制。</p><p>于是他给我甩过来八九个 Python 文件，都包含了各种各样的因子，我也就开始着手搭建批量计算这些因子的 Pipeline。但是由于工作基本上是从周四开始的，我也就懒懒散散，随便写写混个周末了。下周再冲刺吧那就。</p><h2 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h2><p>最近一些想法在我的脑海中愈加清晰。</p><p>前段时间和朋友讨论人生路径的选择，我提到，我们所接受的高等教育，以及在这之中磨练出来的品性和能力，最容易发挥其比较优势的场所不是如今卷生卷死的金融和互联网，而恰恰是普通人也能赚钱的环境，比如开网店、直播等等。而由于太多人脱不下长衫来赚着些不那么“体面”的钱，反而使得这些收入方式对于我们来说是相对友好的。</p><p>这就好比遍地都是黄金，大部分黄金是在地里粘泥的，而少部分黄金是在高峰的宝座上的。人们日复一日锻炼坚强的体魄、开发复杂的工具、学习高深的知识，只为了比别人更快地到达高峰来取得少部分的黄金，却忘了粘了泥的黄金洗一洗也没什么两样。甚至，对于拥有了这样体魄、工具和知识的你来说，在周围的土地里挖金子只会比别人更快啊。而恰恰是由于大部分人眼中只有高峰的黄金，因此地里的黄金才没人抢，因此只属于眼界开阔的人。</p><p>也许可以做一个这样的研究，在控制教育水平之后，将个体的职业或者行业作为哑变量对其收入进行回归。金融和互联网仍旧会是系数最大的行业吗？我看不一定。</p><p>从量化交易的角度来说也是一样的。你要做的不是去跟大的机构竞争，而是找到一个细分的、只有掌握量化能力的个体户才能赚钱的赛道，这样的赛道有不少，只不过大部分人都忽略掉了。</p>]]></content>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这周的工作就比较懒散了。周一汇总好了上周的工作产出，由于带教一直不看就拖到了周二。而周二我则整理了几篇研报对于 RNN</summary>
+        
+      
+    
+    
+    
+    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
+    
+    
+    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
+    
+    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
+    
+    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>量化实习 v3丨Week 9：特征归因</title>
@@ -612,38 +643,6 @@
         
     <summary type="html">&lt;p&gt;今天读了一下带教给的处理期货数据的代码，完全被雷到了。&lt;/p&gt;
 &lt;p&gt;先说代码风格，其中一个文件 &lt;code&gt;TradeDay.py&lt;/code&gt; 还是不错的，像模像样，但是另一个文件 &lt;code&gt;data_update_handler2.py&lt;/code&gt; 就堪称乱七八糟，和前者肯定不是一个人写的。长得快要溢出 24</summary>
-        
-      
-    
-    
-    
-    <category term="量化实习日记" scheme="https://ifwhale.top/categories/%E9%87%8F%E5%8C%96%E5%AE%9E%E4%B9%A0%E6%97%A5%E8%AE%B0/"/>
-    
-    
-    <category term="Quant" scheme="https://ifwhale.top/tags/Quant/"/>
-    
-    <category term="实习" scheme="https://ifwhale.top/tags/%E5%AE%9E%E4%B9%A0/"/>
-    
-    <category term="日记" scheme="https://ifwhale.top/tags/%E6%97%A5%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>量化实习 v2丨Day 42：稍显混乱的工作进展</title>
-    <link href="https://ifwhale.top/posts/59f7f36f/"/>
-    <id>https://ifwhale.top/posts/59f7f36f/</id>
-    <published>2024-06-24T09:10:16.000Z</published>
-    <updated>2024-06-24T12:53:15.618Z</updated>
-    
-    <content type="html"><![CDATA[<p>上午又来了两位实习生，终于可以凑一桌麻将了。</p><p>一问带教才知道，原来有色数据还没开始弄😓，白等了两三天。不过既然没数据用不如自己捣鼓一下，复现了一下领导之前发在群里的<a href="https://mp.weixin.qq.com/s/EQcRkk6BPG3t28cHK78moQ">仓单因子研报</a>。</p><p>这篇研报非常神奇，它用的仓单数据是交易所每日公开发布的，用 WIND 或者 iFind 都很容易获取。而交易逻辑非常直白，仓单增加就做空，仓单减少就做多。实际测试一下，效果惊人。在没有引入未来数据的情况下，每个品种的收益基本都丝滑稳增，个别品种日频曲线收益竟然直逼 2000%，非常吓人。</p><p>趁兴用公司框架回测一下，立马被浇了一盆冷水。除了部分品种仍然能够保持不错的收益以外，另一部分品种的净值开始剧烈波动，甚至基本不能获得收益。更搞笑的是，为了达到和本地回测相似的效果，需要将因子值取相反数！</p><p>这一结果相当神秘，讲不清楚是公司回测框架的原因还是我自己的原因，恐怕还需要进一步研究。</p><p>这时带教又丢了个活，要我研究一下期货品种数据的处理。简单来说就是对主力品种换月这一情况作复权处理。近来工作进度有些混乱，有色弄到一半进度受阻，仓单因子研究了一个下午又没有后文（兴许也可以自己找时间做一做），现在又开始研究期货数据处理，好吧。离实习结束还有不到一个月，还会有什么成果产出吗？</p>]]></content>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;上午又来了两位实习生，终于可以凑一桌麻将了。&lt;/p&gt;
-&lt;p&gt;一问带教才知道，原来有色数据还没开始弄😓，白等了两三天。不过既然没数据用不如自己捣鼓一下，复现了一下领导之前发在群里的&lt;a</summary>
         
       
     
